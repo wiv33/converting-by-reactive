@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.ReactiveMongoOperations;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.core.reactive.ReactiveKafkaConsumerTemplate;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -39,9 +40,14 @@ class RsocketMongoVueApplicationTests {
   ReactiveMongoRepository mongoRepository;
 */
 
+  /*
+    @Autowired
+    ReactiveKafkaProducerTemplate kafkaProducerTemplate;
+  */
+
 /*
-	@Autowired
-	ReactiveKafkaProducerTemplate kafkaProducerTemplate;
+  @Autowired
+  ReactiveKafkaConsumerTemplate kafkaConsumerTemplate;
 */
 
   @Test
