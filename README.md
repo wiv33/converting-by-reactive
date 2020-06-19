@@ -1,6 +1,9 @@
 PS Demo expected: operation 
 ===
 
+# 미완성
+
+
 # ReactiveMongo, RSocket Server, Client with vue.js 
 
 
