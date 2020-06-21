@@ -14,6 +14,7 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 ext {
+    set('springCloudVersion', "Hoxton.SR5")
     BUILD_VERSION = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"))
 }
 
@@ -36,10 +37,6 @@ configurations {
 
 repositories {
     mavenCentral()
-}
-
-ext {
-    set('springCloudVersion', "Hoxton.SR5")
 }
 
 dependencies {
