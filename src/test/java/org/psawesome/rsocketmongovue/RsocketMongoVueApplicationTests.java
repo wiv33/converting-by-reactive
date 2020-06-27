@@ -3,6 +3,7 @@ package org.psawesome.rsocketmongovue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
+import org.psawesome.rsocketmongovue.domain.user.entity.dto.PsUserDto;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -61,15 +62,21 @@ class RsocketMongoVueApplicationTests {
             .email("psk@gmail.com")
             .build();
 
-    Publisher<PsUser> save = reactiveMongoTemplate.<PsUser>save(user);
-    StepVerifier.<PsUser>create(save)
-            .expectNextMatches(o -> o.equals(user))
-            .assertNext(psUser ->
-                    assertAll(
-                            () -> assertEquals("ps", psUser.getName()),
-                            () -> assertEquals("010-0000-0000", psUser.getPhone()),
-                            () -> assertEquals("psk@gmail.com", psUser.getEmail()))
+    Publisher<PsUser> save = reactiveMongoTemplate.save(user);
+    PsUserDto expected = PsUserDto.builder()
+            .name("ps")
+            .email("psk@gmail.com")
+            .phone("010-0000-0000")
+            .build();
+    StepVerifier.create(save).consumeNextWith(response ->
+            assertAll(
+                    () -> assertEquals(response, user),
+                    () -> assertEquals(expected.getName(), response.getName()),
+                    () -> assertEquals(expected.getPhone(), response.getPhone()),
+                    () -> assertEquals(expected.getEmail(), response.getEmail()),
+                    () -> assertThrows(NullPointerException.class, () -> System.out.println("failTest = " + "failTest"))
             )
+    )
             .expectComplete()
             .verify()
     ;
