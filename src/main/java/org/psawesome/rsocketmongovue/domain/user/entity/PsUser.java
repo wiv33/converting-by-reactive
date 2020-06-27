@@ -1,6 +1,9 @@
 package org.psawesome.rsocketmongovue.domain.user.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +13,9 @@ import java.util.UUID;
  * author: ps [https://github.com/wiv33/rsocket-mongo-vue]
  * DATE: 20. 6. 28. Sunday
  */
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 @Document("PS_USER")
 public class PsUser {
 

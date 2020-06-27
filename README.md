@@ -5,7 +5,7 @@ PS Demo expected: operation, 간단한 몽고 query(DSL?)
 
 
 # ReactiveMongo, RSocket Server, Client with vue.js
-## exclude : multi-module 
+## exclude : multi-module, 사소한 validation (ex: phone number) 
 
 
 * [ ] Server  
