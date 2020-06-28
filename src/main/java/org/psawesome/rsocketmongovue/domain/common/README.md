@@ -12,30 +12,33 @@ reflection 사용 정리
 - getDeclaredXXX
   -
   - 선언된 필드 조회 (private 포함)
+    - 
 
 - dtoField.set(res, entityField.get(entity));
   -
+  
   - 설명
     -
-    - **[1.]dtoField**.set(**[2]res**,
+    - **[1.]dtoField**.set(**[2]res**,  
       -
-      1. **dtoField** 에 값을 set 하는데.
+      
+      1. **dtoField** 에 값을 set 하는데.  
         - 
         
-      2. **res**(dto) newInstance 한 객체이고,
+      2. **res**(dto) newInstance 한 객체이고,  
         - 
     
     - **[3.]entityField.get**(**[4]entity**)
       -
-      3. **entity 에 선언된 필드**(껍데기)에
+      3. **entity 에 선언된 필드**(껍데기)에  
         -
         
-      4. **entity** 객체에 있는 값을 가져와서
+      4. **entity** 객체에 있는 값을 가져와서  
         -
         
       * last
         -
-        - 1번을 마무리한다.
+        - 1번을 마무리한다.  
 
 
 ## constructor: getDeclaredConstructors
