@@ -20,17 +20,19 @@ reflection 사용 정리
     - **[1.]dtoField**.set(**[2]res**,
       -
       1. **dtoField** 에 값을 set 하는데.
-        -
+        - 
         
       2. **res**(dto) newInstance 한 객체이고,
-        -
+        - 
     
     - **[3.]entityField.get**(**[4]entity**)
       -
       3. **entity 에 선언된 필드**(껍데기)에
         -
+        
       4. **entity** 객체에 있는 값을 가져와서
         -
+        
       * last
         -
         - 1번을 마무리한다.
