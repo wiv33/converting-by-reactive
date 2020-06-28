@@ -7,8 +7,6 @@ import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
 import org.psawesome.rsocketmongovue.domain.user.entity.dto.PsUserDto;
 import org.psawesome.rsocketmongovue.domain.user.entity.dto.res.PsUserResponse;
 
-import java.time.Duration;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -28,6 +26,35 @@ class EntityToDtoTest {
 
   @BeforeEach
   void setUp() {
+    setSingleTransferData();
+
+
+  }
+
+  @Test
+  void testNewInstance() {
+    PsUserDto transformActual = new EntityToDto().transfer(entity, PsUserDto.class).block();
+    assertEquals(monoExpected, transformActual);
+  }
+
+
+  @Test
+  @DisplayName("다른 타입도 transform 가능하도록 추가")
+  void testAbstractionTransfer() {
+    abstractionActual = new EntityToDto().transfer(entity, PsUserResponse.class).block();
+    assertEquals(abstractionExcepted, abstractionActual);
+  }
+
+
+  @Test
+  void testListTransfer() {
+    // TODO n 개의 Publisher<T> entity to Publisher<R> response
+
+  }
+
+
+  // tag::테스트를 위한 데이터 생성[]
+  private void setSingleTransferData() {
     entity = PsUser.builder()
             .name("ps")
             .phone("010")
@@ -48,25 +75,7 @@ class EntityToDtoTest {
             .email(entity.getEmail())
             .build();
   }
-
-  @Test
-  void testNewInstance() {
-    PsUserDto transformActual = new EntityToDto().transfer(entity, PsUserDto.class).block(Duration.ofSeconds(2));
-    assertEquals(monoExpected, transformActual);
-  }
+  // end::테스트를 위한 데이터 생성[]
 
 
-  @Test
-  @DisplayName("다른 타입도 transform 가능하도록 추가")
-  void testAbstractionTransfer() {
-    abstractionActual = new EntityToDto().transfer(entity, PsUserResponse.class).block(Duration.ofSeconds(2));
-    assertEquals(abstractionExcepted, abstractionActual);
-  }
-
-
-  @Test
-  void testListTransfer() {
-    // TODO n 개의 Publisher<T> entity to Publisher<R> response
-
-  }
 }

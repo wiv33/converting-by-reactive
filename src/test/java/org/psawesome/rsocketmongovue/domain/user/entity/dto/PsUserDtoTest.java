@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -49,7 +50,7 @@ class PsUserDtoTest {
   @DisplayName("should be equal entity value and value in new PsUserDto().transform(entity) ")
   void testResult() {
     // tag::oldVersion[]
-    actual = new PsUserDto().transform(entity).block();
+    actual = new PsUserDtoTest().transform(entity).block();
     assertEquals(expected, actual);
     // end::oldVersion[]
   }
@@ -57,7 +58,7 @@ class PsUserDtoTest {
   // tag::AccessTestClass[]
 
   // tag::declared Classes[]
-  @SuppressWarnings("unused")
+  @SuppressWarnings("all")
   class TestAccessField {
     private String failString;
     int failInt;
@@ -109,7 +110,7 @@ class PsUserDtoTest {
     // tag::private []
     Field[] fields = entity.getClass().getFields();
     assertEquals(0, fields.length);
-    // end::tagname[]
+    // end::private[]
 
     // tag::선언된 fields 조회[]
     Field[] declaredFields = entity.getClass().getDeclaredFields();
@@ -140,4 +141,21 @@ class PsUserDtoTest {
             ));
   }
 
+
+  public Mono<PsUserDto> transform(PsUser entity) {
+    return Flux.fromStream(Stream.of(PsUserDto.class.getDeclaredFields()))
+            .reduce(PsUserDto.builder().build(), (psUserDto, field) -> {
+              try {
+                Field entityField = entity.getClass().getDeclaredField(field.getName());
+                entityField.setAccessible(true);
+                Field dtoField = psUserDto.getClass().getDeclaredField(field.getName());
+                dtoField.setAccessible(true);
+                dtoField.set(psUserDto, entityField.get(entity));
+                return psUserDto;
+              } catch (NoSuchFieldException | IllegalAccessException e) {
+                return psUserDto;
+              }
+            })
+            ;
+  }
 }
