@@ -7,10 +7,10 @@ import org.psawesome.rsocketmongovue.domain.common.EntityToDto;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
 import org.psawesome.rsocketmongovue.domain.user.entity.dto.res.PsUserResponse;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -30,9 +30,9 @@ class PsUserDtoTest {
   PsUserDto actual;
 
   // tag::abstractionTest[]
-  Mono<PsUserResponse> abstractionExcepted;
-  Mono<PsUserResponse> abstractionActual;
-  private Mono<PsUserDto> monoExpected;
+  PsUserResponse abstractionExcepted;
+  PsUserResponse abstractionActual;
+  PsUserDto monoExpected;
 
   // end::abstractionTest[]
   @BeforeEach
@@ -52,18 +52,18 @@ class PsUserDtoTest {
             .age(17)
             .build();
 
-    monoExpected = Mono.just(PsUserDto.builder()
+    monoExpected = PsUserDto.builder()
             .uuid(entity.getUuid())
             .name("ps")
             .phone("010")
             .email("psk")
             .age(17)
-            .build());
+            .build();
 
-    abstractionExcepted = Mono.just(PsUserResponse.builder()
+    abstractionExcepted = PsUserResponse.builder()
             .uuid(entity.getUuid())
             .email(entity.getEmail())
-            .build());
+            .build();
   }
 
   @Test
@@ -73,7 +73,7 @@ class PsUserDtoTest {
 //    actual = new PsUserDto().transform(entity).block();
 //    assertEquals(expected, actual);
     // end::oldVersion[]
-    Mono<PsUserDto> transformActual = EntityToDto.<PsUser, PsUserDto>transform(entity);
+    PsUserDto transformActual = new EntityToDto().transform(entity, PsUserDto.class).block(Duration.ofSeconds(2));
     assertEquals(monoExpected, transformActual);
   }
 
@@ -142,7 +142,7 @@ class PsUserDtoTest {
   @Test
   @DisplayName("다른 타입도 transform 가능하도록 추가")
   void testAbstractionTransform() {
-    abstractionActual = EntityToDto.<PsUser, PsUserResponse>transform(entity);
+    abstractionActual = new EntityToDto().transform(entity, PsUserResponse.class).block(Duration.ofSeconds(2));
     assertEquals(abstractionExcepted, abstractionActual);
   }
 }

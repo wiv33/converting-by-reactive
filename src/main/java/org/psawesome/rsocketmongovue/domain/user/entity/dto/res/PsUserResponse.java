@@ -1,7 +1,9 @@
 package org.psawesome.rsocketmongovue.domain.user.entity.dto.res;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
@@ -11,6 +13,8 @@ import java.util.UUID;
  */
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PsUserResponse {
   private UUID uuid;
   private String email;
