@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {
-                "application.properties"
+                "application.yml"
         })
 //@EnableKafka
 @EnableReactiveMongoRepositories

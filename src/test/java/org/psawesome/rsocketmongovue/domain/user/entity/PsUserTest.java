@@ -29,6 +29,7 @@ class PsUserTest {
   @Test
   @DisplayName("setUp 시 save 확인")
   void testSetUpSaveMongo() {
+    System.out.println("PsUserTest.testSetUpSaveMongo");
     PsUser user = PsUser.builder()
             .name("ps")
             .phone("010-0000-0000")
@@ -42,18 +43,34 @@ class PsUserTest {
             .phone("010-0000-0000")
             .build();
 
-    StepVerifier.create(save).consumeNextWith(response ->
-            assertAll(
+    StepVerifier.create(save)
+            .consumeNextWith(response -> assertAll(
 //                    () -> assertThrows(NullPointerException.class, () -> System.out.println("failTest = " + "failTest")),
                     () -> assertEquals(response, user),
                     () -> assertEquals(expected.getName(), response.getName()),
                     () -> assertEquals(expected.getPhone(), response.getPhone()),
-                    () -> assertEquals(expected.getEmail(), response.getEmail())
+                    () -> assertEquals(expected.getEmail(), response.getEmail()))
             )
-    )
             .expectComplete()
             .verify()
     ;
 
+  }
+
+  @Test
+  void testMongoTemplate() {
+
+    operations.insert(PsUser.builder()
+            .name("misa")
+            .email("misa@gmail.com")
+            .phone("010-2323-2323")
+            .build())
+    ;
+
+  }
+
+  @Test
+  void testFindOne() {
+//    reactiveMongoTemplate.findOne(new Query())
   }
 }

@@ -1,0 +1,45 @@
+---
+spring:
+  rsocket:
+    server:
+      port: 7000
+
+  main:
+    lazy-initialization: true
+  devtools:
+    livereload:
+      enabled: true
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              ReactiveMongoTemplate: DEBUG
+---
+
+---
+spring:
+  profiles: prod
+  rsocket:
+    server:
+      port: 7000
+
+  main:
+    lazy-initialization: true
+  devtools:
+    livereload:
+      enabled: false
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              ReactiveMongoTemplate: off
+
+---
