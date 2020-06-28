@@ -95,11 +95,5 @@ class PsUserTest {
 
 
   }
-// PsUser(uuid=975a25f2-3e15-4bf3-867a-7748a66fc3d7, name=ps, phone=010-0000-0000, email=psk@gmail.com, age=17)
-// PsUser(uuid=39d5f07f-49b5-4176-8b0a-2c3f8b94e9e8, name=ps, phone=010-0000-0000, email=psk@gmail.com, age=17)
-  @Test
-  void testEntityToResponse() {
-    PsUser psUser = psUser();
 
-  }
 }

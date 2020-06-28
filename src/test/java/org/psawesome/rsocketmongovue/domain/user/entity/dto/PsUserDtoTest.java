@@ -56,6 +56,8 @@ class PsUserDtoTest {
 
   // tag::AccessTestClass[]
 
+  // tag::declared Classes[]
+  @SuppressWarnings("unused")
   class TestAccessField {
     private String failString;
     int failInt;
@@ -63,18 +65,41 @@ class PsUserDtoTest {
     public Double accessDouble;
   }
 
+  @SuppressWarnings("unused")
+  static class TestStaticAccessField {
+    private String failString;
+    int failInt;
+    protected BigDecimal failBigDecimal;
+    public Double accessDouble;
+  }
+
+  // end::declared Classes[]
   @Test
+  @DisplayName("class constructor 5")
   void testAccess() {
     Field[] fields = TestAccessField.class.getFields();
     assertEquals(1, fields.length);
 
     Field[] declaredFields = TestAccessField.class.getDeclaredFields();
+    assertEquals(5, declaredFields.length);
+/*
     Stream.of(declaredFields)
             .map(Field::getName)
             .forEach(System.out::println);
+*/
 
-    assertEquals(5, declaredFields.length);
   }
+
+  @Test
+  @DisplayName("static class constructor 4")
+  void testStaticAccess() {
+    Field[] fields = TestStaticAccessField.class.getFields();
+    assertEquals(1, fields.length);
+
+    Field[] declaredFields = TestStaticAccessField.class.getDeclaredFields();
+    assertEquals(4, declaredFields.length);
+  }
+
   // end::AccessTestClass[]
 
   @Test
