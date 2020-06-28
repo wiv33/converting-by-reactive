@@ -54,4 +54,4 @@ reflection 사용 정리
 
 EntityToDto.java
 =
-![모델 use case](./20200628_234614.jpg)
+![모델 use case](./entityToDto.jpg)
