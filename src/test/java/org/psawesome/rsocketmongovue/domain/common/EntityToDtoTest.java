@@ -58,8 +58,15 @@ class EntityToDtoTest {
 
   @Test
   @DisplayName("다른 타입도 transform 가능하도록 추가")
-  void testAbstractionTransform() {
+  void testAbstractionTransfer() {
     abstractionActual = new EntityToDto().transfer(entity, PsUserResponse.class).block(Duration.ofSeconds(2));
     assertEquals(abstractionExcepted, abstractionActual);
+  }
+
+
+  @Test
+  void testListTransfer() {
+    // TODO n 개의 Publisher<T> entity to Publisher<R> response
+
   }
 }
