@@ -4,8 +4,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.lang.reflect.Field;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 /**
  * author: ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -29,14 +33,19 @@ public class PsUserDto {
     this.age = age;
   }
 
-  public PsUserDto transform(PsUser entity) {
-    PsUserDto result = new PsUserDto();
-//    return Flux.fromStream(Stream.of(result.getClass().getDeclaredFields()))
-//            .map(item -> {
-//              Field declaredField = entity.getClass().getDeclaredField(item.getName());
-//            })
-//            .map(field -> )
-    ;
-    return result;
+  public Mono<PsUserDto> transform(PsUser entity) {
+    return Flux.fromStream(Stream.of(PsUserDto.class.getDeclaredFields()))
+            .reduce(PsUserDto.builder().build(), (psUserDto, field) -> {
+              try {
+                Field entityField = entity.getClass().getDeclaredField(field.getName());
+                entityField.setAccessible(true);
+                Field dtoField = psUserDto.getClass().getDeclaredField(field.getName());
+                dtoField.setAccessible(true);
+                dtoField.set(psUserDto, entityField.get(entity));
+                return psUserDto;
+              } catch (NoSuchFieldException | IllegalAccessException e) {
+                return psUserDto;
+              }
+            });
   }
 }

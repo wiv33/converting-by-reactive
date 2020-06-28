@@ -9,6 +9,7 @@ import reactor.core.publisher.Flux;
 import java.lang.reflect.Field;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -20,7 +21,7 @@ class PsUserDtoTest {
 
   PsUser entity;
 
-  PsUserDto expect;
+  PsUserDto expected;
 
   PsUserDto actual;
 
@@ -33,7 +34,8 @@ class PsUserDtoTest {
             .age(17)
             .build();
 
-    expect = PsUserDto.builder()
+    expected = PsUserDto.builder()
+            .uuid(entity.getUuid())
             .name("ps")
             .phone("010")
             .email("psk")
@@ -44,8 +46,8 @@ class PsUserDtoTest {
   @Test
   @DisplayName("should be equal entity value and value in new PsUserDto().transform(entity) ")
   void testResult() {
-    actual = new PsUserDto().transform(entity);
-    assertEquals(expect, actual);
+    actual = new PsUserDto().transform(entity).block();
+    assertEquals(expected, actual);
   }
 
   @Test
@@ -56,28 +58,32 @@ class PsUserDtoTest {
     assertEquals(0, fields.length);
 
     Field[] declaredFields = entity.getClass().getDeclaredFields();
-    assertEquals(4, declaredFields.length);
+    assertEquals(5, declaredFields.length);
 
     Flux.fromStream(Stream.of(declaredFields))
-            .reduce(PsUserDto.builder().build() ,(acc, field) -> {
-              Object field1 = getField(field.getName());
-              return acc;
+            .reduce(PsUserDto.builder().build() ,(psUserDto, field) -> {
+              try {
+                Field entityField = entity.getClass().getDeclaredField(field.getName());
+                entityField.setAccessible(true);
+                Field dtoField = psUserDto.getClass().getDeclaredField(field.getName());
+                dtoField.setAccessible(true);
+                dtoField.set(psUserDto, entityField.get(entity));
+                return psUserDto;
+              } catch (NoSuchFieldException | IllegalAccessException e) {
+                return psUserDto;
+              }
             })
             .log()
             .doOnError(Throwable::new)
-            .subscribe();
+            .subscribe(actualDto -> assertAll(
+                    () -> assertEquals(expected.getUuid(), actualDto.getUuid()),
+                    () -> assertEquals(expected.getAge(), actualDto.getAge()),
+                    () -> assertEquals(expected.getName(), actualDto.getName()),
+                    () -> assertEquals(expected.getPhone(), actualDto.getPhone()),
+                    () -> assertEquals(expected.getEmail(), actualDto.getEmail())
+            ));
 
   }
 
 
-  private Object getField(String name) {
-    try {
-      Field declaredField = entity.getClass().getDeclaredField(name);
-      declaredField.setAccessible(true);
-      return declaredField.get(entity);
-    } catch (NoSuchFieldException | IllegalAccessException e) {
-      return null;
-    }
-
-  }
 }
