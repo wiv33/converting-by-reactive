@@ -4,11 +4,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
-import reactor.core.publisher.Flux;
 
-import java.lang.reflect.Field;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 /**
  * author: ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -32,11 +29,12 @@ public class PsUserDto {
 
   public PsUserDto transform(PsUser entity) {
     PsUserDto result = new PsUserDto();
-    return Flux.fromStream(Stream.of(result.getClass().getDeclaredFields()))
-            .map(item -> {
-              Field declaredField = entity.getClass().getDeclaredField(item.getName());
-            })
-            .map(field -> )
+//    return Flux.fromStream(Stream.of(result.getClass().getDeclaredFields()))
+//            .map(item -> {
+//              Field declaredField = entity.getClass().getDeclaredField(item.getName());
+//            })
+//            .map(field -> )
     ;
+    return result;
   }
 }
