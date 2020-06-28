@@ -2,9 +2,11 @@ package org.psawesome.rsocketmongovue.domain.user.entity.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
 import reactor.core.publisher.Flux;
 
+import java.lang.reflect.Field;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -13,6 +15,7 @@ import java.util.stream.Stream;
  * DATE: 20. 6. 28. Sunday
  */
 @Data
+@NoArgsConstructor
 @Builder
 public class PsUserDto {
   private UUID uuid;
@@ -28,7 +31,12 @@ public class PsUserDto {
   }
 
   public PsUserDto transform(PsUser entity) {
-    Flux.fromStream(Stream.of(PsUser.class.getDeclaredFields()))
+    PsUserDto result = new PsUserDto();
+    return Flux.fromStream(Stream.of(result.getClass().getDeclaredFields()))
+            .map(item -> {
+              Field declaredField = entity.getClass().getDeclaredField(item.getName());
+            })
+            .map(field -> )
     ;
   }
 }
