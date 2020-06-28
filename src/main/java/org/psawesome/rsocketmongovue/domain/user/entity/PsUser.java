@@ -2,7 +2,7 @@ package org.psawesome.rsocketmongovue.domain.user.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Data
 @Document("PS_USER")
 public class PsUser {
 

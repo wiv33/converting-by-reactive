@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 /**
  * author: ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -21,22 +23,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PsUserTest {
 
   @Autowired
-  ReactiveMongoTemplate reactiveMongoTemplate;
+  ReactiveMongoTemplate tepmlate;
 
   @Autowired
   ReactiveMongoOperations operations;
 
+
   @Test
   @DisplayName("setUp 시 save 확인")
   void testSetUpSaveMongo() {
-    System.out.println("PsUserTest.testSetUpSaveMongo");
-    PsUser user = PsUser.builder()
-            .name("ps")
-            .phone("010-0000-0000")
-            .email("psk@gmail.com")
-            .build();
+    PsUser user = psUser();
 
-    Publisher<PsUser> save = reactiveMongoTemplate.save(user);
+    Publisher<PsUser> save = tepmlate.save(user);
     PsUserDto expected = PsUserDto.builder()
             .name("ps")
             .email("psk@gmail.com")
@@ -57,6 +55,14 @@ class PsUserTest {
 
   }
 
+  private PsUser psUser() {
+    return PsUser.builder()
+            .name("ps")
+            .phone("010-0000-0000")
+            .email("psk@gmail.com")
+            .build();
+  }
+
   @Test
   void testMongoTemplate() {
 
@@ -70,7 +76,19 @@ class PsUserTest {
   }
 
   @Test
+  @DisplayName("저장하고 조회한 객체 비교: findOne")
   void testFindOne() {
-//    reactiveMongoTemplate.findOne(new Query())
+    /*
+        debug
+        2020-06-28 16:48:09.122 DEBUG 47887 --- [ntLoopGroup-2-2] o.s.d.m.core.ReactiveMongoTemplate       : findOne using query: { "name" : "ps"} fields: {} in db.collection: test.PS_USER
+     */
+    PsUser given = psUser();
+    StepVerifier.create(tepmlate.save(given)
+            .log()
+            .then(tepmlate.findOne(new Query(where("name").is("ps")), PsUser.class).log()))
+            .expectNext(new PsUser(given.getUuid(), "ps", "010-0000-0000", "psk@gmail.com"))
+            .verifyComplete();
+
+
   }
 }
