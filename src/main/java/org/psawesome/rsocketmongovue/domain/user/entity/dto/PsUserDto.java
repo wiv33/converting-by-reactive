@@ -2,8 +2,11 @@ package org.psawesome.rsocketmongovue.domain.user.entity.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
+import reactor.core.publisher.Flux;
 
 import java.util.UUID;
+import java.util.stream.Stream;
 
 /**
  * author: ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -22,5 +25,10 @@ public class PsUserDto {
     this.name = name;
     this.phone = phone;
     this.email = email;
+  }
+
+  public PsUserDto transform(PsUser entity) {
+    Flux.fromStream(Stream.of(PsUser.class.getDeclaredFields()))
+    ;
   }
 }

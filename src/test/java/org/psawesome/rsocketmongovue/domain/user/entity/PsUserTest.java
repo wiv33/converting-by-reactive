@@ -91,4 +91,10 @@ class PsUserTest {
 
 
   }
+
+  @Test
+  void testEntityToResponse() {
+    PsUser psUser = psUser();
+
+  }
 }
