@@ -17,12 +17,16 @@ public class EntityToDto {
 
   // tag::public methods[]
 
-  @SuppressWarnings({"unchecked"})
   public <T, R> Mono<R> transfer(T entity, Class<R> result) {
     return Flux.fromStream(getDtoFields(result))
-            .reduce((R) initial(getNoArgConstructor(result)),
+            .reduce(getInitial(result),
                     transferToDto(entity))
             .log();
+  }
+
+  @SuppressWarnings({"unchecked"})
+  private <R> R getInitial(Class<R> result) {
+    return (R) initial(getNoArgConstructor(result));
   }
 
   // end::public methods[]
