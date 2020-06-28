@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -26,6 +27,10 @@ class PsUserDtoTest {
 
   PsUserDto actual;
 
+  // tag::abstractionTest[]
+  Mono<PsUserResponse> abstractionExcepted;
+  Mono<PsUserResponse> abstractionActual;
+  // end::abstractionTest[]
   @BeforeEach
   void setUp() {
     entity = PsUser.builder()
@@ -42,6 +47,11 @@ class PsUserDtoTest {
             .email("psk")
             .age(17)
             .build();
+
+    abstractionExcepted = Mono.just(PsUserResponse.builder()
+            .uuid(entity.getUuid())
+            .email(entity.getEmail())
+            .build());
   }
 
   @Test
@@ -110,8 +120,13 @@ class PsUserDtoTest {
                     () -> assertEquals(expected.getPhone(), actualDto.getPhone()),
                     () -> assertEquals(expected.getEmail(), actualDto.getEmail())
             ));
-
   }
 
 
+  @Test
+  @DisplayName("다른 타입도 transform 가능하도록 추가")
+  void testAbstractionTransform() {
+    abstractionActual = EntityToDto.<PsUserResponse>framsform(entity);
+    assertEquals(abstractionExcepted, abstractionActual);
+  }
 }
