@@ -1,5 +1,6 @@
 package org.psawesome.rsocketmongovue.domain.common;
 
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -13,19 +14,20 @@ import java.util.stream.Stream;
  * author: ps [https://github.com/wiv33/rsocket-mongo-vue]
  * DATE: 20. 6. 28. Sunday
  */
+@Component
 public class EntityToDto {
 
   // tag::public methods[]
 
   public <T, R> Mono<R> transfer(T entity, Class<R> result) {
     return Flux.fromStream(getDtoFields(result))
-            .reduce(getInitial(result),
+            .reduce(initDto(result),
                     transferToDto(entity))
             .log();
   }
 
   @SuppressWarnings({"unchecked"})
-  private <R> R getInitial(Class<R> result) {
+  private <R> R initDto(Class<R> result) {
     return (R) initial(getNoArgConstructor(result));
   }
 

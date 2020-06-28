@@ -9,9 +9,7 @@ import org.psawesome.rsocketmongovue.domain.user.entity.dto.res.PsUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
-import reactor.core.publisher.Flux;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -28,6 +26,7 @@ class EntityToDtoTest {
   PsUserDto monoExpected;
   // end::abstractionTest[]
 
+  @Autowired
   EntityToDto toDto;
 
   @Autowired
@@ -35,10 +34,8 @@ class EntityToDtoTest {
 
   @BeforeEach
   void setUp() {
-    toDto = new EntityToDto();
+//    toDto = new EntityToDto();
     setSingleTransferData();
-
-
   }
 
   @Test
@@ -56,6 +53,7 @@ class EntityToDtoTest {
   }
 
 
+/*
   @Test
   @DisplayName("N 개의 Entity Transfer")
   void testListTransfer() {
@@ -71,6 +69,7 @@ class EntityToDtoTest {
                     // @formatter:on
     );
   }
+*/
 
 
   // tag::테스트를 위한 데이터 생성[]
