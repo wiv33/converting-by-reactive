@@ -51,7 +51,7 @@ class EntityToDtoTest {
 
   @Test
   void testNewInstance() {
-    PsUserDto transformActual = new EntityToDto().transform(entity, PsUserDto.class).block(Duration.ofSeconds(2));
+    PsUserDto transformActual = new EntityToDto().transfer(entity, PsUserDto.class).block(Duration.ofSeconds(2));
     assertEquals(monoExpected, transformActual);
   }
 
@@ -59,7 +59,7 @@ class EntityToDtoTest {
   @Test
   @DisplayName("다른 타입도 transform 가능하도록 추가")
   void testAbstractionTransform() {
-    abstractionActual = new EntityToDto().transform(entity, PsUserResponse.class).block(Duration.ofSeconds(2));
+    abstractionActual = new EntityToDto().transfer(entity, PsUserResponse.class).block(Duration.ofSeconds(2));
     assertEquals(abstractionExcepted, abstractionActual);
   }
 }

@@ -18,7 +18,7 @@ public class EntityToDto {
   // tag::public methods[]
 
   @SuppressWarnings({"unchecked"})
-  public <T, R> Mono<R> transform(T entity, Class<R> result) {
+  public <T, R> Mono<R> transfer(T entity, Class<R> result) {
     return Flux.fromStream(getDtoFields(result))
             .reduce((R) initial(getNoArgConstructor(result)),
                     transferToDto(entity))
