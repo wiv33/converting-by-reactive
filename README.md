@@ -2,7 +2,7 @@ PS Demo expected: operation, 간단한 몽고 query(DSL?)
 ===
 
 # 미완성
-
+? rsocket을 kafka로 변경이 수월할까
 
 # ReactiveMongo, RSocket Server, Client with vue.js
 ## exclude : multi-module, 사소한 validation (ex: phone number) 

@@ -41,6 +41,7 @@ class PsUserTest {
             .email("psk@gmail.com")
             .phone("010-0000-0000")
             .build();
+
     StepVerifier.create(save).consumeNextWith(response ->
             assertAll(
 //                    () -> assertThrows(NullPointerException.class, () -> System.out.println("failTest = " + "failTest")),
