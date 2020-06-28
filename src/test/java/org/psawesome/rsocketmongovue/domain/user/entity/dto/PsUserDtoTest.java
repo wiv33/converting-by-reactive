@@ -7,6 +7,7 @@ import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
 import reactor.core.publisher.Flux;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -50,18 +51,45 @@ class PsUserDtoTest {
     assertEquals(expected, actual);
   }
 
+  // tag::AccessTestClass[]
+
+  class TestAccessField {
+    private String failString;
+    int failInt;
+    protected BigDecimal failBigDecimal;
+    public Double accessDouble;
+  }
+
+  @Test
+  void testAccess() {
+    Field[] fields = TestAccessField.class.getFields();
+    assertEquals(1, fields.length);
+
+    Field[] declaredFields = TestAccessField.class.getDeclaredFields();
+    Stream.of(declaredFields)
+            .map(Field::getName)
+            .forEach(System.out::println);
+
+    assertEquals(5, declaredFields.length);
+  }
+  // end::AccessTestClass[]
+
   @Test
   @DisplayName("should be exist get field")
-  void testTransform() throws Exception {
+  void testTransform() {
     // 1. Entity field 와 값을 조회한다.
+    // tag::private []
     Field[] fields = entity.getClass().getFields();
     assertEquals(0, fields.length);
+    // end::tagname[]
 
+    // tag::선언된 fields 조회[]
     Field[] declaredFields = entity.getClass().getDeclaredFields();
     assertEquals(5, declaredFields.length);
+    // end::선언된 fields 조회[]
 
     Flux.fromStream(Stream.of(declaredFields))
-            .reduce(PsUserDto.builder().build() ,(psUserDto, field) -> {
+            .reduce(PsUserDto.builder().build(), (psUserDto, field) -> {
               try {
                 Field entityField = entity.getClass().getDeclaredField(field.getName());
                 entityField.setAccessible(true);
