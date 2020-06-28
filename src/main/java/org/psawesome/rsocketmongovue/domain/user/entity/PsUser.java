@@ -25,12 +25,14 @@ public class PsUser {
   private String name;
   private String phone;
   private String email;
+  private Integer age;
 
   @Builder
-  public PsUser(String name, String phone, String email) {
+  public PsUser(String name, String phone, String email, Integer age) {
     this.uuid = UUID.randomUUID();
     this.name = name;
     this.phone = phone;
     this.email = email;
+    this.age = age;
   }
 }

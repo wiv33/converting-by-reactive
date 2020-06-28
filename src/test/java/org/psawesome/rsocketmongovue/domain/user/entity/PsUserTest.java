@@ -39,6 +39,7 @@ class PsUserTest {
             .name("ps")
             .email("psk@gmail.com")
             .phone("010-0000-0000")
+            .age(17)
             .build();
 
     StepVerifier.create(save)
@@ -47,6 +48,7 @@ class PsUserTest {
                     () -> assertEquals(response, user),
                     () -> assertEquals(expected.getName(), response.getName()),
                     () -> assertEquals(expected.getPhone(), response.getPhone()),
+                    () -> assertEquals(expected.getAge(), response.getAge()),
                     () -> assertEquals(expected.getEmail(), response.getEmail()))
             )
             .expectComplete()
@@ -60,6 +62,7 @@ class PsUserTest {
             .name("ps")
             .phone("010-0000-0000")
             .email("psk@gmail.com")
+            .age(17)
             .build();
   }
 
@@ -70,6 +73,7 @@ class PsUserTest {
             .name("misa")
             .email("misa@gmail.com")
             .phone("010-2323-2323")
+            .age(17)
             .build())
     ;
 
@@ -85,13 +89,14 @@ class PsUserTest {
     PsUser given = psUser();
     StepVerifier.create(tepmlate.save(given)
             .log()
-            .then(tepmlate.findOne(new Query(where("name").is("ps")), PsUser.class).log()))
-            .expectNext(new PsUser(given.getUuid(), "ps", "010-0000-0000", "psk@gmail.com"))
+            .then(tepmlate.findOne(new Query(where("uuid").is(given.getUuid())), PsUser.class).log()))
+            .expectNext(new PsUser(given.getUuid(), "ps", "010-0000-0000", "psk@gmail.com", 17))
             .verifyComplete();
 
 
   }
-
+// PsUser(uuid=975a25f2-3e15-4bf3-867a-7748a66fc3d7, name=ps, phone=010-0000-0000, email=psk@gmail.com, age=17)
+// PsUser(uuid=39d5f07f-49b5-4176-8b0a-2c3f8b94e9e8, name=ps, phone=010-0000-0000, email=psk@gmail.com, age=17)
   @Test
   void testEntityToResponse() {
     PsUser psUser = psUser();

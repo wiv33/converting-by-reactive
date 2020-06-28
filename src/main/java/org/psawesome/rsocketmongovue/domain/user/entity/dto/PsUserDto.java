@@ -19,12 +19,14 @@ public class PsUserDto {
   private String name;
   private String phone;
   private String email;
+  private Integer age;
 
-  public PsUserDto(UUID uuid, String name, String phone, String email) {
+  public PsUserDto(UUID uuid, String name, String phone, String email, Integer age) {
     this.uuid = uuid;
     this.name = name;
     this.phone = phone;
     this.email = email;
+    this.age = age;
   }
 
   public PsUserDto transform(PsUser entity) {
