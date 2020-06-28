@@ -1,4 +1,4 @@
-PS Demo expected: operation, 간단한 몽고 query(DSL?) 
+PS Demo expected: operation, 간단한 몽고 query(DSL?), processor 노드 
 ===
 
 # 미완성
@@ -6,57 +6,38 @@ PS Demo expected: operation, 간단한 몽고 query(DSL?)
 
 # ReactiveMongo, RSocket Server, Client with vue.js
 ## exclude : 
+
 - multi-module
 - 사소한 validation (ex: phone number)
 - authentication, authorization 
 
 ---
 
-* [ ] Server  
+* [X] Server  
  `state`
+    - start
  
-* [ ] Client  
- `state`
+* ~~[ ] Client~~  
+ `close`
  
 * [ ] front-end    
  `state`
 
 
-## StepVerifier
+## Go to StepVerifier
 
-### reactiveOperation
+### Entity
 
-    ...
-
-### reactiveMongoTemplate
-
-    ...
+- [class location](https://github.com/wiv33/rsocket-mongo-vue/tree/master/src/main/java/org/psawesome/rsocketmongovue/domain/user/entity)
+    -
     
-### reactiveMongoRepository
+- [test code location](https://github.com/wiv33/rsocket-mongo-vue/blob/master/src/test/java/org/psawesome/rsocketmongovue/domain/user/entity/dto/PsUserDtoTest.java)
+    -
 
-    ...
+### EntityToDto
 
-## RSocket Server
+- [class file](https://github.com/wiv33/rsocket-mongo-vue/blob/master/src/main/java/org/psawesome/rsocketmongovue/domain/common/EntityToDto.java)
+    - 
     
-#### kafka-streams
-
-    ...
-
-#### ReactiveKafkaProducerTemplate
-
-    ...
-    
-## RSocket Client
-
-#### kafka-streams
-    
-    ...
-        
-#### ReactiveKafkaConsumerTemplate
-
-    ...
-    
-## Mocha
-
-    ...
-    
+- [test code file](https://github.com/wiv33/rsocket-mongo-vue/blob/master/src/test/java/org/psawesome/rsocketmongovue/domain/common/EntityToDtoTest.java)
+    -
