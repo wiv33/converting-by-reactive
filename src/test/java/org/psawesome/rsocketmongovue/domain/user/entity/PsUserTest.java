@@ -23,10 +23,10 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 class PsUserTest {
 
   @Autowired
-  ReactiveMongoTemplate tepmlate;
+  ReactiveMongoTemplate reactiveMongoTemplate;
 
   @Autowired
-  ReactiveMongoOperations operations;
+  ReactiveMongoOperations mongoOperations;
 
 
   @Test
@@ -34,7 +34,7 @@ class PsUserTest {
   void testSetUpSaveMongo() {
     PsUser user = psUser();
 
-    Publisher<PsUser> save = tepmlate.save(user);
+    Publisher<PsUser> save = reactiveMongoTemplate.save(user);
     PsUserDto expected = PsUserDto.builder()
             .name("ps")
             .email("psk@gmail.com")
@@ -69,7 +69,7 @@ class PsUserTest {
   @Test
   void testMongoTemplate() {
 
-    operations.insert(PsUser.builder()
+    mongoOperations.insert(PsUser.builder()
             .name("misa")
             .email("misa@gmail.com")
             .phone("010-2323-2323")
@@ -87,9 +87,9 @@ class PsUserTest {
         2020-06-28 16:48:09.122 DEBUG 47887 --- [ntLoopGroup-2-2] o.s.d.m.core.ReactiveMongoTemplate       : findOne using query: { "name" : "ps"} fields: {} in db.collection: test.PS_USER
      */
     PsUser given = psUser();
-    StepVerifier.create(tepmlate.save(given)
+    StepVerifier.create(reactiveMongoTemplate.save(given)
             .log()
-            .then(tepmlate.findOne(new Query(where("uuid").is(given.getUuid())), PsUser.class).log()))
+            .then(reactiveMongoTemplate.findOne(new Query(where("uuid").is(given.getUuid())), PsUser.class).log()))
             .expectNext(new PsUser(given.getUuid(), "ps", "010-0000-0000", "psk@gmail.com", 17))
             .verifyComplete();
 
