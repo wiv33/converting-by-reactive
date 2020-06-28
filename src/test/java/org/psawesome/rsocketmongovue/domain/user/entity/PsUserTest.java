@@ -30,8 +30,8 @@ class PsUserTest {
 
 
   @Test
-  @DisplayName("setUp 시 save 확인")
-  void testSetUpSaveMongo() {
+  @DisplayName("save test")
+  void testSaveMongo() {
     PsUser user = psUser();
 
     Publisher<PsUser> save = reactiveMongoTemplate.save(user);
