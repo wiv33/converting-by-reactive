@@ -3,7 +3,9 @@ package org.psawesome.rsocketmongovue.domain.user.entity.dto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.psawesome.rsocketmongovue.domain.common.EntityToDto;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
+import org.psawesome.rsocketmongovue.domain.user.entity.dto.res.PsUserResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -30,6 +32,8 @@ class PsUserDtoTest {
   // tag::abstractionTest[]
   Mono<PsUserResponse> abstractionExcepted;
   Mono<PsUserResponse> abstractionActual;
+  private Mono<PsUserDto> monoExpected;
+
   // end::abstractionTest[]
   @BeforeEach
   void setUp() {
@@ -48,6 +52,14 @@ class PsUserDtoTest {
             .age(17)
             .build();
 
+    monoExpected = Mono.just(PsUserDto.builder()
+            .uuid(entity.getUuid())
+            .name("ps")
+            .phone("010")
+            .email("psk")
+            .age(17)
+            .build());
+
     abstractionExcepted = Mono.just(PsUserResponse.builder()
             .uuid(entity.getUuid())
             .email(entity.getEmail())
@@ -57,8 +69,12 @@ class PsUserDtoTest {
   @Test
   @DisplayName("should be equal entity value and value in new PsUserDto().transform(entity) ")
   void testResult() {
-    actual = new PsUserDto().transform(entity).block();
-    assertEquals(expected, actual);
+    // tag::oldVersion[]
+//    actual = new PsUserDto().transform(entity).block();
+//    assertEquals(expected, actual);
+    // end::oldVersion[]
+    Mono<PsUserDto> transformActual = EntityToDto.<PsUser, PsUserDto>transform(entity);
+    assertEquals(monoExpected, transformActual);
   }
 
   // tag::AccessTestClass[]
@@ -126,7 +142,7 @@ class PsUserDtoTest {
   @Test
   @DisplayName("다른 타입도 transform 가능하도록 추가")
   void testAbstractionTransform() {
-    abstractionActual = EntityToDto.<PsUserResponse>framsform(entity);
+    abstractionActual = EntityToDto.<PsUser, PsUserResponse>transform(entity);
     assertEquals(abstractionExcepted, abstractionActual);
   }
 }
