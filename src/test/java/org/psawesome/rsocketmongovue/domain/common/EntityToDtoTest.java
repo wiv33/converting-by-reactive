@@ -56,7 +56,7 @@ class EntityToDtoTest {
 
 
   @Test
-  @DisplayName("N 개의 Entity Transfer")
+  @DisplayName("N 개의 Entity Transfer :: 최종 result")
   void testListTransfer() {
     // TODO n 개의 Publisher<T> entity to Publisher<R> response
     Flux<PsUser> given = this.reactiveMongoTemplate.findAll(PsUser.class);
@@ -70,6 +70,15 @@ class EntityToDtoTest {
                     // @formatter:on
     );
   }
+
+  // tag::findAll[]
+/*
+  public <T, R> Flux<R> transfer(Publisher<T> entities, Class<R> result) {
+      return Flux.from(entities);
+  }
+ */
+
+  // end::findAll[]
 
 
   // tag::테스트를 위한 데이터 생성[]

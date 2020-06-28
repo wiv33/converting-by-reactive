@@ -25,13 +25,28 @@ public class EntityToDto {
                     transferToDto(entity))
             .log();
   }
+  // tag::temporary comment[]
+  /*
+
+    - 위 함수 재사용 가능한지 테스트
+    - entities 를 entity 로 unwrap 테스트
+
+  */
+  // end::temporary comment[]
+  public <T, R> Flux<R> transfer(Flux<T> entities, Class<R> result) {
+    return Flux.from(this.transfer(Mono.from(entities), result));
+  }
+
+  // end::public methods[]
+
+  private <R> Stream<Field> getDtoFields(Class<R> result) {
+    return Stream.of(result.getDeclaredFields());
+  }
 
   @SuppressWarnings({"unchecked"})
   private <R> R initDto(Class<R> result) {
     return (R) initial(getNoArgConstructor(result));
   }
-
-  // end::public methods[]
 
   private <R> Constructor<?> getNoArgConstructor(Class<R> result) {
     Class<?> aClass = null;
@@ -53,10 +68,6 @@ public class EntityToDto {
     } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  private <R> Stream<Field> getDtoFields(Class<R> result) {
-    return Stream.of(result.getDeclaredFields());
   }
 
   private <T, R> BiFunction<R, Field, R> transferToDto(T entity) {
