@@ -51,3 +51,7 @@ reflection 사용 정리
       - 
       - setAccess(true) 와는 관계 없음.
       
+
+EntityToDto.java
+=
+![모델 use case](./20200628_234614.jpg)
