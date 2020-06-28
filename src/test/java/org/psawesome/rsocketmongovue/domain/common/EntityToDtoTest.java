@@ -6,26 +6,36 @@ import org.junit.jupiter.api.Test;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
 import org.psawesome.rsocketmongovue.domain.user.entity.dto.PsUserDto;
 import org.psawesome.rsocketmongovue.domain.user.entity.dto.res.PsUserResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import reactor.core.publisher.Flux;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * author: ps [https://github.com/wiv33/rsocket-mongo-vue]
  * DATE: 20. 6. 28. Sunday
  */
+@SpringBootTest
 class EntityToDtoTest {
 
   PsUser entity;
 
   // tag::abstractionTest[]
   PsUserResponse abstractionExcepted;
-  PsUserResponse abstractionActual;
   PsUserDto monoExpected;
-
   // end::abstractionTest[]
+
+  EntityToDto toDto;
+
+  @Autowired
+  ReactiveMongoTemplate reactiveMongoTemplate;
 
   @BeforeEach
   void setUp() {
+    toDto = new EntityToDto();
     setSingleTransferData();
 
 
@@ -33,7 +43,7 @@ class EntityToDtoTest {
 
   @Test
   void testNewInstance() {
-    PsUserDto transformActual = new EntityToDto().transfer(entity, PsUserDto.class).block();
+    PsUserDto transformActual = toDto.transfer(entity, PsUserDto.class).block();
     assertEquals(monoExpected, transformActual);
   }
 
@@ -41,15 +51,25 @@ class EntityToDtoTest {
   @Test
   @DisplayName("다른 타입도 transform 가능하도록 추가")
   void testAbstractionTransfer() {
-    abstractionActual = new EntityToDto().transfer(entity, PsUserResponse.class).block();
+    PsUserResponse abstractionActual = toDto.transfer(entity, PsUserResponse.class).block();
     assertEquals(abstractionExcepted, abstractionActual);
   }
 
 
   @Test
+  @DisplayName("N 개의 Entity Transfer")
   void testListTransfer() {
     // TODO n 개의 Publisher<T> entity to Publisher<R> response
-
+    Flux<PsUser> given = this.reactiveMongoTemplate.findAll(PsUser.class);
+    Flux<PsUserResponse> actual = toDto.transfer(given, PsUserResponse.class);
+    given.zipWith(actual).subscribe(tuple ->
+                    // @formatter:off
+            assertAll(
+              () -> assertEquals(tuple.getT1().getUuid(), tuple.getT2().getUuid()),
+              () -> assertEquals(tuple.getT1().getEmail(), tuple.getT2().getEmail())
+            )
+                    // @formatter:on
+    );
   }
 
 
