@@ -28,10 +28,10 @@ PS Demo expected: operation, 간단한 몽고 query(DSL?), processor 노드
 
 ### Entity
 
-- [class location](https://github.com/wiv33/rsocket-mongo-vue/tree/master/src/main/java/org/psawesome/rsocketmongovue/domain/user/entity)
+- [package location](https://github.com/wiv33/rsocket-mongo-vue/tree/master/src/main/java/org/psawesome/rsocketmongovue/domain/user/entity)
     -
     
-- [test code location](https://github.com/wiv33/rsocket-mongo-vue/blob/master/src/test/java/org/psawesome/rsocketmongovue/domain/user/entity/dto/PsUserDtoTest.java)
+- [test code file](https://github.com/wiv33/rsocket-mongo-vue/blob/master/src/test/java/org/psawesome/rsocketmongovue/domain/user/entity/dto/PsUserDtoTest.java)
     -
 
 ### EntityToDto
