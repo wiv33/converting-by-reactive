@@ -25,16 +25,11 @@ public class EntityToDto {
                     transferToDto(entity))
             .log();
   }
-  // tag::temporary comment[]
-  /*
 
-    - 위 함수 재사용 가능한지 테스트
-    - entities 를 entity 로 unwrap 테스트
-
-  */
-  // end::temporary comment[]
   public <T, R> Flux<R> transfer(Flux<T> entities, Class<R> result) {
-    return Flux.from(this.transfer(Mono.from(entities), result));
+    return entities
+            .transform(tFlux -> tFlux.map(item -> (R) this.transfer(item, result)))
+            .log();
   }
 
   // end::public methods[]

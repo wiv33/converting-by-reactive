@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,7 +43,7 @@ class EntityToDtoTest {
 
   @Test
   void testNewInstance() {
-    PsUserDto transformActual = toDto.transfer(entity, PsUserDto.class).block();
+    PsUserDto transformActual = toDto.transfer(Mono.just(entity), PsUserDto.class).block();
     assertEquals(monoExpected, transformActual);
   }
 

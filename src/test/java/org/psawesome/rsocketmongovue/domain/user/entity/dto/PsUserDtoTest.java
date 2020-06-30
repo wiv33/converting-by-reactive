@@ -131,7 +131,7 @@ class PsUserDtoTest {
               }
             })
             .log()
-            .doOnError(Throwable::new)
+            .doOnError(Throwable::printStackTrace)
             .subscribe(actualDto -> assertAll(
                     () -> assertEquals(expected.getUuid(), actualDto.getUuid()),
                     () -> assertEquals(expected.getAge(), actualDto.getAge()),

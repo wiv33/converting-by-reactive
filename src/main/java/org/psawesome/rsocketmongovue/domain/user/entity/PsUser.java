@@ -20,7 +20,7 @@ import java.util.UUID;
 public class PsUser {
 
   @Id
-  private UUID uuid;
+  private String uuid;
 
   private String name;
   private String phone;
@@ -29,7 +29,7 @@ public class PsUser {
 
   @Builder
   public PsUser(String name, String phone, String email, Integer age) {
-    this.uuid = UUID.randomUUID();
+    this.uuid = UUID.randomUUID().toString();
     this.name = name;
     this.phone = phone;
     this.email = email;
