@@ -9,10 +9,8 @@ import org.psawesome.rsocketmongovue.domain.user.entity.dto.res.PsUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -55,7 +53,9 @@ class EntityToDtoTest {
     assertEquals(abstractionExcepted, abstractionActual);
   }
 
+  // tag::list transfer 작업 중단[]
 
+/*
   @Test
   @DisplayName("N 개의 Entity Transfer :: 최종 result")
   void testListTransfer() {
@@ -71,6 +71,8 @@ class EntityToDtoTest {
                     // @formatter:on
     );
   }
+*/
+// end::list transfer 작업 중단[]
 
   // tag::findAll[]
 /*

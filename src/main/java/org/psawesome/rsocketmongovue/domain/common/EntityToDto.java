@@ -26,11 +26,13 @@ public class EntityToDto {
             .log();
   }
 
+/*
   public <T, R> Flux<R> transfer(Flux<T> entities, Class<R> result) {
     return entities
             .transform(tFlux -> tFlux.map(item -> (R) this.transfer(item, result)))
             .log();
   }
+*/
 
   // end::public methods[]
 
