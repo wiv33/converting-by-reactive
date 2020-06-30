@@ -2,6 +2,10 @@ package org.psawesome.rsocketmongovue;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.rsocket.RSocketRequester;
+import org.springframework.util.MimeTypeUtils;
+import reactor.core.publisher.Mono;
 
 @SpringBootApplication
 public class RsocketMongoVueApplication {
@@ -12,8 +16,8 @@ public class RsocketMongoVueApplication {
 
 
 
-
 /*
+
   @Bean
   RSocket rSocketRequester() {
     return RSocketConnector
@@ -24,7 +28,9 @@ public class RsocketMongoVueApplication {
             .block()
             ;
   }
+*/
 
+/*
   @Bean
   public RSocketRequester requester() {
     return RSocketRequester.builder()
@@ -33,4 +39,12 @@ public class RsocketMongoVueApplication {
   }
 */
 
+  @Bean
+  public Mono<RSocketRequester> requester(RSocketRequester.Builder builder) {
+    return builder
+            .dataMimeType(MimeTypeUtils.APPLICATION_JSON)
+//            .setupRoute("", "")
+            .connectTcp("localhost", 7000)
+            ;
+  }
 }
