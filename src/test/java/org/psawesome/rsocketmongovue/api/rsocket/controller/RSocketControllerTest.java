@@ -2,6 +2,7 @@ package org.psawesome.rsocketmongovue.api.rsocket.controller;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ class RSocketControllerTest {
   }
 
   @Test
+  @DisplayName("rsocket user 저장 후 조회 테스트")
   void testRSocketConnection() {
 
     PsUser build = PsUser.builder()
