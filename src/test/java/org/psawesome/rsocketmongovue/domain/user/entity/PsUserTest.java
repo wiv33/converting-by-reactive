@@ -6,19 +6,16 @@ import org.psawesome.rsocketmongovue.domain.user.entity.dto.PsUserDto;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.ReactiveFindOperationExtensionsKt;
 import org.springframework.data.mongodb.core.ReactiveFluentMongoOperations;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import reactor.test.StepVerifier;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 /**
@@ -109,15 +106,23 @@ class PsUserTest {
 
   @Test
   void testMapSave() {
+    PsUser ps = new PsUser("richard", "010", "psk@gmail.com", 17);
     StepVerifier.create(reactiveMongoTemplate.insert(PsUser.class)
-            .all(List.of(new PsUser("ps", "010", "psk@gmail.com", 17))))
+            .all(List.of(ps)))
             .expectNextCount(1)
-    .verifyComplete();
+            .verifyComplete();
 
-    System.out.println(fluentMongoOperations.query(PsUser.class)
-            .as(PsUser.class)
-            .matching(Query.query(where("name").is("ps")))
-            .count());
+    StepVerifier.create(reactiveMongoTemplate.find(Query.query(where("name").is("richard")), PsUser.class)
+            .log("find template ::: ->"))
+            .expectNext(new PsUser(ps.getUuid(), "richard", "010", "psk@gmail.com", 17))
+            .verifyComplete();
 
+
+    StepVerifier.create(fluentMongoOperations.query(PsUser.class)
+            .matching(Query.query(where("name").is("richard")))
+            .first()
+            .log("fluentMongo --->>> "))
+            .expectNextCount(1)
+            .verifyComplete();
   }
 }

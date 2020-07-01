@@ -4,11 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.psawesome.rsocketmongovue.api.http.router.ApiRouter;
-import org.psawesome.rsocketmongovue.domain.common.EntityToDto;
 import org.psawesome.rsocketmongovue.domain.user.entity.dto.res.PsUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -16,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.server.RouterFunction;
-import org.springframework.web.reactive.function.server.ServerResponse;
 
 /**
  * author: ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -35,14 +32,14 @@ class PsUserHandlerTest {
   ApplicationContext context;
 
   @Autowired
-  RouterFunction<ServerResponse> routerFunction;
+  RouterFunction<?> userRouter;
 
   @Autowired
   WebTestClient webTestClient;
 
   @BeforeEach
   void setUp() {
-    webTestClient = WebTestClient.bindToRouterFunction(routerFunction)
+    webTestClient = WebTestClient.bindToRouterFunction(userRouter)
             .build();
   }
 

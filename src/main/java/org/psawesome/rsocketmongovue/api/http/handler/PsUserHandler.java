@@ -1,13 +1,10 @@
 package org.psawesome.rsocketmongovue.api.http.handler;
 
-import ch.qos.logback.classic.sift.AppenderFactoryUsingJoran;
 import lombok.RequiredArgsConstructor;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
-import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
@@ -37,5 +34,13 @@ public class PsUserHandler {
             PsUser.class)
             .log()
             ;
+  }
+
+  public Mono<ServerResponse> findUser(ServerRequest request) {
+    return null;
+  }
+
+  public Mono<ServerResponse> save(ServerRequest request) {
+    return null;
   }
 }
