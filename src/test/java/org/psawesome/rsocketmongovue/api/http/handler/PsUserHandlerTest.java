@@ -4,8 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.psawesome.rsocketmongovue.api.http.router.ApiRouter;
+import org.psawesome.rsocketmongovue.domain.common.EntityToDto;
 import org.psawesome.rsocketmongovue.domain.user.entity.dto.res.PsUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
@@ -26,7 +28,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
         ReactiveMongoTemplate.class,
         PsUserHandler.class,
 })
-@SpringBootTest
+@WebFluxTest
 class PsUserHandlerTest {
 
   @Autowired

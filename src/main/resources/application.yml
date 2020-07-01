@@ -3,9 +3,10 @@ spring:
   rsocket:
     server:
       port: 7000
+      transport: tcp
 
   main:
-    lazy-initialization: true
+    lazy-initialization: false
   devtools:
     livereload:
       enabled: true

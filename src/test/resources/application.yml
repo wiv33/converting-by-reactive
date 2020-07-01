@@ -1,3 +1,5 @@
+
+
 logging:
   level:
     org:
@@ -6,3 +8,8 @@ logging:
           mongodb:
             core:
               ReactiveMongoTemplate: debug
+spring:
+  rsocket:
+    server:
+      port: 7000
+      transport: tcp

@@ -1,12 +1,13 @@
 package org.psawesome.rsocketmongovue.api.http.handler;
 
+import ch.qos.logback.classic.sift.AppenderFactoryUsingJoran;
 import lombok.RequiredArgsConstructor;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
-import org.psawesome.rsocketmongovue.domain.user.entity.dto.PsUserDto;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
@@ -21,14 +22,18 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @RequiredArgsConstructor
 public class PsUserHandler {
 
-  private final Mono<RSocketRequester> requesterMono;
+//  private final RSocketRequester requester;
 
   public Mono<ServerResponse> userFindAll(ServerRequest request) {
     String userInfo = Objects.requireNonNull(request.headers()
             .firstHeader("X-USER-ID"));
 
+//    Flux<PsUser> publisher = requester.route("user.all").retrieveFlux(PsUser.class);
+//    publisher.log();
+//    publisher.subscribe(System.out::println);
+
     return ok().body(
-            requesterMono.<Object>map(rRequest -> rRequest.route("psUser").retrieveFlux(PsUserDto.class)),
+            Mono.just(""),
             PsUser.class)
             .log()
             ;

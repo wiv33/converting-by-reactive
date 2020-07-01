@@ -51,6 +51,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+//    implementation 'com.querydsl:querydsl-apt'
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
     implementation 'org.springframework.boot:spring-boot-starter-rsocket'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'

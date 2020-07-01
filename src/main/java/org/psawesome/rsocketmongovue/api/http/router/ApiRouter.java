@@ -23,18 +23,20 @@ public class ApiRouter {
   private final PsUserHandler psUserHandler;
 
   @Bean
-  public RouterFunction<ServerResponse> routerFunction() {
-//    return RouterFunctions.nest(
-//            GET("/").and(accept(MediaType.APPLICATION_JSON)),
-//            req -> psUserHandler.userFindAll(req)
-//    );
+  public RouterFunction<?> routerFunction() {
+    return route(GET("/api/v1/user").and(accept(MediaType.APPLICATION_JSON)),
+            psUserHandler::userFindAll
+    );
+/*
     return nest(path("/api/v1"),
             nest(accept(MediaType.APPLICATION_JSON),
                     route(GET("/user"),
                             psUserHandler::userFindAll
                     ))
+
 //            .andRoute()
     );
-  }
+*/
 
+  }
 }

@@ -21,10 +21,10 @@ public class RSocketController {
 
   private final ReactiveMongoTemplate reactiveMongoTemplate;
 
-  @MessageMapping("psUser.all")
-  public Flux<PsUserDto> psUserFindAll(){
-    return reactiveMongoTemplate.findAll(PsUser.class)
-            .map(s -> toDto.transfer(s, PsUserDto.class))
-            .flatMap(Flux::from);
+  @MessageMapping("user.all")
+  public Flux<PsUser> psUserFindAll(){
+    return Flux.just(PsUser.builder().build())
+            ;
   }
+
 }
