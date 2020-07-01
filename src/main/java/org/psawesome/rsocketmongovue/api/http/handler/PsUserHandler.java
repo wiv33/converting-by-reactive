@@ -25,10 +25,6 @@ public class PsUserHandler {
     String userInfo = Objects.requireNonNull(request.headers()
             .firstHeader("X-USER-ID"));
 
-//    Flux<PsUser> publisher = requester.route("user.all").retrieveFlux(PsUser.class);
-//    publisher.log();
-//    publisher.subscribe(System.out::println);
-
     return ok().body(
             Mono.just(""),
             PsUser.class)
