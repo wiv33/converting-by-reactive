@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.api.http.rsocket;
+package org.psawesome.rsocketmongovue.api.rsocket;
 
 import lombok.AllArgsConstructor;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;

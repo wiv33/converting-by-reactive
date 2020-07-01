@@ -59,5 +59,11 @@ class RSocketControllerTest {
             ))
             .verifyComplete()
     ;
+
+    StepVerifier.create(requester.route("user.all")
+            .retrieveFlux(PsUser.class)
+    .log("user.all -->>> "))
+            .expectNextCount(1)
+            .verifyComplete();
   }
 }
