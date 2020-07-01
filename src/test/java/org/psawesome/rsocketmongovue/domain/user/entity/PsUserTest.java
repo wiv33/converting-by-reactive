@@ -6,10 +6,17 @@ import org.psawesome.rsocketmongovue.domain.user.entity.dto.PsUserDto;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.ReactiveFindOperationExtensionsKt;
+import org.springframework.data.mongodb.core.ReactiveFluentMongoOperations;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import reactor.test.StepVerifier;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -86,7 +93,8 @@ class PsUserTest {
         2020-06-28 16:48:09.122 DEBUG 47887 --- [ntLoopGroup-2-2] o.s.d.m.core.ReactiveMongoTemplate       : findOne using query: { "name" : "ps"} fields: {} in db.collection: test.PS_USER
      */
     PsUser given = psUser();
-    StepVerifier.create(reactiveMongoTemplate.save(given)
+    StepVerifier.create(fluentMongoOperations.insert(PsUser.class)
+            .one(given)
             .log()
             .then(reactiveMongoTemplate.findOne(new Query(where("uuid").is(given.getUuid())), PsUser.class).log()))
             .expectNext(new PsUser(given.getUuid(), "ps", "010-0000-0000", "psk@gmail.com", 17))
@@ -95,4 +103,21 @@ class PsUserTest {
 
   }
 
+  @Autowired
+  ReactiveFluentMongoOperations fluentMongoOperations;
+
+
+  @Test
+  void testMapSave() {
+    StepVerifier.create(reactiveMongoTemplate.insert(PsUser.class)
+            .all(List.of(new PsUser("ps", "010", "psk@gmail.com", 17))))
+            .expectNextCount(1)
+    .verifyComplete();
+
+    System.out.println(fluentMongoOperations.query(PsUser.class)
+            .as(PsUser.class)
+            .matching(Query.query(where("name").is("ps")))
+            .count());
+
+  }
 }
