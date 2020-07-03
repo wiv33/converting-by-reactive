@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * DATE: 20. 7. 2. Thursday
  */
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Document("PS_ARTICLE")
 public class PsArticle {
