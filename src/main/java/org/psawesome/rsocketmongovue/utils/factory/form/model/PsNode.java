@@ -25,14 +25,14 @@ import java.util.function.Supplier;
 
 public class PsNode<T> {
 
-  private PsValue value;
+  private final T value;
 
   public PsNode(Map<String, Object> param) {
-    this.value = PS_VALUE.classifier(param);
+    this.value = PS_VALUE.classifier(param).getValue();
   }
 
   public T getValue() {
-    return value.getValue();
+    return value;
   }
 
   protected <R> R propNotNull(R target, String name) {
