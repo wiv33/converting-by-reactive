@@ -69,6 +69,7 @@ public class PsNode {
     TO_UPPER("TO_UPPER"),
     TO_LOWER("TO_LOWER");
     private final String state;
+
     NODE_STATE(String state) {
       this.state = state;
     }

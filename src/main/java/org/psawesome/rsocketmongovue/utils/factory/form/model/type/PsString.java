@@ -11,8 +11,4 @@ import org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker.PsValu
  */
 public final class PsString implements PsValue {
 
-  @Override
-  public <T extends PsValue> T getValue() {
-    return null;
-  }
 }

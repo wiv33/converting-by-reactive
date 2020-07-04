@@ -14,8 +14,4 @@ import org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker.PsValu
  * @since 20. 7. 4. Saturday
  */
 public class PsDate implements PsValue {
-  @Override
-  public <T extends PsValue> T getValue() {
-    return null;
-  }
 }

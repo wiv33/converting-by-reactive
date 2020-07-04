@@ -13,5 +13,5 @@ package org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker;
  */
 
 public interface PsValue {
-  public <T extends PsValue> T getValue();
+//  PsValue getValue(Map<String, Object> param);
 }
