@@ -1,6 +1,6 @@
 package org.psawesome.rsocketmongovue.utils.factory.mapping;
 
-import org.psawesome.rsocketmongovue.utils.factory.mapping.model.type.PsMappingType;
+import org.psawesome.rsocketmongovue.utils.factory.mapping.model.PsMappingType;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
