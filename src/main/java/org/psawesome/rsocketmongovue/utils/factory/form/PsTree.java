@@ -11,6 +11,6 @@ package org.psawesome.rsocketmongovue.utils.factory.form;
  * @see org.psawesome.rsocketmongovue.utils.factory.mapping.PsMapping
  * @since 20. 7. 4. Saturday
  */
-public interface PsForm {
+public class PsTree {
 
 }

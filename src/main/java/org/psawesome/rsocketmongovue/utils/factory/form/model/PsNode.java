@@ -25,7 +25,7 @@ import java.util.function.Supplier;
 
 public class PsNode<T> {
 
-  private final T value;
+  private T value;
 
   public PsNode(Map<String, Object> param) {
     this.value = PS_VALUE.classifier(param).getValue();
@@ -33,6 +33,11 @@ public class PsNode<T> {
 
   public T getValue() {
     return value;
+  }
+
+  public PsNode<T> setValue(T value) {
+    this.value = value;
+    return this;
   }
 
   protected <R> R propNotNull(R target, String name) {
