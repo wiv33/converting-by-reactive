@@ -1,10 +1,12 @@
 package org.psawesome.rsocketmongovue.utils.factory.form.model;
 
-import lombok.*;
+import lombok.Data;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.*;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
+import java.util.function.Function;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -19,33 +21,51 @@ import java.util.UUID;
  */
 
 @Data
-@Setter(AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public abstract class PsNode {
+public class PsNode {
 
-  private final UUID uuid;
-  private final String name;
-  private final Map<String, String> attribute;
-  private final CDATA_STATE state;
+  private final PsType value;
 
-  protected PsNode(String name, Map<String, String> attribute, CDATA_STATE state) {
-    this.uuid = UUID.randomUUID();
-    this.attribute = this.propNotNull(attribute, "attribute");
-    this.name = this.propNotNull(name, "name");
-    this.state = this.propNotNull(state, "state");
+  public PsNode(Map<String, Object> param) {
+    this.value = PS_VALUE.classifier(param);
   }
 
-  protected <T> T propNotNull(T target, String name) {
+
+  protected <R> R propNotNull(R target, String name) {
     return Objects.requireNonNull(target, String.format("must not null node [%s]", name));
   }
 
-  @Getter(AccessLevel.PROTECTED)
-  public enum CDATA_STATE {
-    ACTIVE("ACTIVE"),
-    NONE("NONE");
-    private final String state;
+  private enum PS_VALUE {
+    STRING("string", (Map<String, Object> map) -> new PsString()),
+    DATE("date", (Map<String, Object> map) -> new PsDate()),
+    MAP("map", (Map<String, Object> map) -> new PsMap()),
+    ARRAY("array", (Map<String, Object> map) -> new PsArray());
 
-    CDATA_STATE(String state) {
+    private final String type;
+    private final Function<Map<String, Object>, ? extends PsType> psFunc;
+
+    PS_VALUE(String type, Function<Map<String, Object>, ? extends PsType> psFunc) {
+      this.type = type;
+      this.psFunc = psFunc;
+    }
+
+    private static PsType classifier(Map<String, Object> param) {
+      return Arrays.stream(PS_VALUE.values())
+              .filter(v -> v.type.equals(param.get("type").toString().toLowerCase()))
+              .peek(System.out::println)
+              .findFirst()
+              .orElseThrow(NullPointerException::new)
+              .psFunc.apply(param);
+    }
+
+  }
+
+  private enum NODE_STATE {
+    ACTIVE("ACTIVE"),
+    NONE("NONE"),
+    TO_UPPER("TO_UPPER"),
+    TO_LOWER("TO_LOWER");
+    private final String state;
+    NODE_STATE(String state) {
       this.state = state;
     }
   }

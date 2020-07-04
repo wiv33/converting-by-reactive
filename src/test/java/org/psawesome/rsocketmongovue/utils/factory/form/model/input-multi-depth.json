@@ -1,0 +1,40 @@
+{
+  "rss": {
+    "version": {
+      "typeInfo": {
+        "type": "string",
+        "attribute": {
+          "name": "lower",
+          "title": "myRss",
+          "version": "1.0"
+        }
+      },
+      "value": "1.0"
+    },
+    "date": "2020-07-06 17:55:23",
+    "documents": {
+      "document": [{
+        "id": "ps",
+        "name": "awesome",
+        "fields": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },{
+        "id": "ps - 2",
+        "name": "awesome"
+      },{
+        "id": "ps - 3",
+        "name": "awesome"
+      },{
+        "id": "ps - 4",
+        "name": "awesome"
+      },{
+        "id": "ps - 5",
+        "name": "awesome"
+      }]
+    }
+  }
+}

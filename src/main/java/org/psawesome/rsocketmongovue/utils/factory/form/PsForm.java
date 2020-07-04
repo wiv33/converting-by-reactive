@@ -1,7 +1,5 @@
 package org.psawesome.rsocketmongovue.utils.factory.form;
 
-import org.psawesome.rsocketmongovue.utils.factory.form.model.PsNode;
-
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
  * @role 입력받은 노드를 모아 형식을 만든다.
@@ -13,6 +11,6 @@ import org.psawesome.rsocketmongovue.utils.factory.form.model.PsNode;
  * @see org.psawesome.rsocketmongovue.utils.factory.mapping.PsMapping
  * @since 20. 7. 4. Saturday
  */
-public interface PsForm<T extends PsNode> {
+public interface PsForm {
 
 }

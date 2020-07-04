@@ -1,0 +1,74 @@
+[{
+  "name": "rss",
+  "type": "map",
+  "attribute": {
+    "name": "lower",
+    "title": "myRss",
+    "version": "1.0"
+  },
+  "parent": null,
+  "cdata": "none",
+  "spell": "toLower"
+},{
+  "name": "version",
+  "type": "string",
+  "attribute": {
+    "version": "1.0"
+  },
+  "parent": "rss",
+  "cdata": "active",
+  "spell": "toLower"
+},{
+  "name": "title",
+  "type": "string",
+
+  "parent": "rss",
+  "cdata": "active",
+  "spell": "toUpper"
+},{
+  "name": "date",
+  "type": "date",
+
+  "parent": "rss",
+  "cdata": "active",
+  "dateFormat": "yyyy-MM-dd HH:mm:ss",
+  "spell": "none"
+},{
+  "name": "documents",
+  "type": "array",
+  "attribute": {
+    "site": "daily"
+  },
+  "parent": "rss",
+  "cdata": "active",
+  "spell": "toLower"
+},{
+  "name": "document",
+  "type": "map",
+  "defaultCnt": 5,
+  "parent": "documents",
+  "cdata": "active",
+  "spell": "none"
+},{
+  "name": "document-date",
+  "type": "date",
+  "parent": "documents",
+  "cdata": "active",
+  "spell": "toLower"
+},{
+  "name": "deploy",
+  "type": "string",
+  "attribute": {
+    "name": "deployment",
+    "version": "1.0"
+  },
+  "parent": "documents",
+  "cdata": "active",
+  "spell": "toUpper"
+},{
+  "name": "version",
+  "type": "string",
+  "parent": "rss",
+  "cdata": "active",
+  "spell": "toLower"
+}]
