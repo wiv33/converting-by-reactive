@@ -1,6 +1,5 @@
 package org.psawesome.rsocketmongovue.utils.factory.form.model;
 
-import lombok.Data;
 import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsArray;
 import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsDate;
 import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsMap;
@@ -10,7 +9,7 @@ import org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker.PsValu
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -24,30 +23,32 @@ import java.util.function.Function;
  * @since 20. 7. 4. Saturday
  */
 
-@Data
-public class PsNode {
+public class PsNode<T> {
 
-  private final PsValue value;
+  private PsValue value;
 
   public PsNode(Map<String, Object> param) {
     this.value = PS_VALUE.classifier(param);
   }
 
+  public T getValue() {
+    return value.getValue();
+  }
 
   protected <R> R propNotNull(R target, String name) {
     return Objects.requireNonNull(target, String.format("must not null node [%s]", name));
   }
 
   private enum PS_VALUE {
-    STRING("string", (Map<String, Object> param) -> new PsString()),
-    DATE("date", (Map<String, Object> param) -> new PsDate()),
-    MAP("map", (Map<String, Object> param) -> new PsMap()),
-    ARRAY("array", (Map<String, Object> param) -> new PsArray());
+    STRING("string", () -> new PsString()),
+    DATE("date", () -> new PsDate()),
+    MAP("map", () -> new PsMap()),
+    ARRAY("array", () -> new PsArray());
 
     private final String type;
-    private final Function<Map<String, Object>, ? extends PsValue> transform;
+    private final Supplier<? extends PsValue> transform;
 
-    PS_VALUE(String type, Function<Map<String, Object>, ? extends PsValue> transform) {
+    PS_VALUE(String type, Supplier<? extends PsValue> transform) {
       this.type = type;
       this.transform = transform;
     }
@@ -58,7 +59,7 @@ public class PsNode {
 //              .peek(System.out::println)
               .findFirst()
               .orElseThrow(NullPointerException::new)
-              .transform.apply(param);
+              .transform.get();
     }
 
   }

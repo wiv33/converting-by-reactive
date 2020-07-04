@@ -29,10 +29,16 @@ import java.util.List;
  */
 class PsNodeTest {
   // input
+  String str;
+  ObjectMapper mapper;
+  List<LinkedHashMap<String, Object>> linked;
 
   @BeforeEach
-  void setUp() {
-
+  void setUp() throws IOException {
+    str = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/form/model/input-one-depth.json"));
+    mapper = new ObjectMapper();
+    linked = mapper.readValue(str, new TypeReference<>() {
+    });
   }
 
   @Test
@@ -46,10 +52,6 @@ class PsNodeTest {
 
   @Test
   void testOneDepthJson() throws IOException {
-    String str = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/form/model/input-one-depth.json"));
-    ObjectMapper mapper = new ObjectMapper();
-    List<LinkedHashMap<String, Object>> linked = mapper.readValue(str, new TypeReference<>() {
-    });
 
     StepVerifier.create(Flux.fromStream(linked.stream())
             .map(PsNode::new)
@@ -65,6 +67,16 @@ class PsNodeTest {
                     PsDate.class.getName(),
                     PsString.class.getName(),
                     PsString.class.getName())
+            .verifyComplete();
+  }
+
+  @Test
+  void testNodeGetValue() {
+    StepVerifier.create(Flux.fromStream(linked.stream())
+            .map(PsNode::new)
+            .map(objectPsNode -> objectPsNode.getValue().getClass().getName())
+            .log())
+            .expectNextCount(9)
             .verifyComplete();
   }
 }

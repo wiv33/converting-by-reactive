@@ -11,4 +11,14 @@ import org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker.PsValu
  */
 public final class PsString implements PsValue {
 
+  private StringBuilder value;
+
+  public PsString() {
+    this.value = new StringBuilder();
+  }
+
+  @Override
+  public <T> T getValue() {
+    return (T) value;
+  }
 }
