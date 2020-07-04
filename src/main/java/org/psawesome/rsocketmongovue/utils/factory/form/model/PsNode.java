@@ -1,7 +1,11 @@
 package org.psawesome.rsocketmongovue.utils.factory.form.model;
 
 import lombok.Data;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.*;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsArray;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsDate;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsMap;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsString;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker.PsValue;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -23,7 +27,7 @@ import java.util.function.Function;
 @Data
 public class PsNode {
 
-  private final PsType value;
+  private final PsValue value;
 
   public PsNode(Map<String, Object> param) {
     this.value = PS_VALUE.classifier(param);
@@ -35,26 +39,26 @@ public class PsNode {
   }
 
   private enum PS_VALUE {
-    STRING("string", (Map<String, Object> map) -> new PsString()),
-    DATE("date", (Map<String, Object> map) -> new PsDate()),
-    MAP("map", (Map<String, Object> map) -> new PsMap()),
-    ARRAY("array", (Map<String, Object> map) -> new PsArray());
+    STRING("string", (Map<String, Object> param) -> new PsString()),
+    DATE("date", (Map<String, Object> param) -> new PsDate()),
+    MAP("map", (Map<String, Object> param) -> new PsMap()),
+    ARRAY("array", (Map<String, Object> param) -> new PsArray());
 
     private final String type;
-    private final Function<Map<String, Object>, ? extends PsType> psFunc;
+    private final Function<Map<String, Object>, ? extends PsValue> transform;
 
-    PS_VALUE(String type, Function<Map<String, Object>, ? extends PsType> psFunc) {
+    PS_VALUE(String type, Function<Map<String, Object>, ? extends PsValue> transform) {
       this.type = type;
-      this.psFunc = psFunc;
+      this.transform = transform;
     }
 
-    private static PsType classifier(Map<String, Object> param) {
+    private static PsValue classifier(Map<String, Object> param) {
       return Arrays.stream(PS_VALUE.values())
               .filter(v -> v.type.equals(param.get("type").toString().toLowerCase()))
-              .peek(System.out::println)
+//              .peek(System.out::println)
               .findFirst()
               .orElseThrow(NullPointerException::new)
-              .psFunc.apply(param);
+              .transform.apply(param);
     }
 
   }

@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.utils.factory.form.model.type;
+package org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -11,5 +11,7 @@ package org.psawesome.rsocketmongovue.utils.factory.form.model.type;
  * @see
  * @since 20. 7. 4. Saturday
  */
-public interface PsType {
+
+public interface PsValue {
+  public <T extends PsValue> T getValue();
 }
