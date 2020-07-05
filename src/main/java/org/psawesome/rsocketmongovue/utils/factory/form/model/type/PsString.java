@@ -9,7 +9,7 @@ import org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker.PsValu
  * @cooperate
  * @since 20. 7. 4. Saturday
  */
-public final class PsString implements PsValue<PsString, String> {
+public final class PsString implements PsValue<String> {
 
   private String value = "";
 

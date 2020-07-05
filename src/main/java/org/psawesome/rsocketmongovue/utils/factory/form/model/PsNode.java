@@ -25,13 +25,13 @@ import java.util.function.Supplier;
  */
 
 @Getter
-public class PsNode<T, I> {
+public class PsNode<I> {
   private String name;
   private Map<String, Object> attributes;
   private String parent;
   private NODE_STATE cdata;
   private NODE_STATE spell;
-  private PsValue<T, I> value;
+  private PsValue<I> value;
 
   public PsNode(Map<String, Object> param) {
     this.name = propNotNull((String) param.get("name"), "name");
@@ -39,7 +39,7 @@ public class PsNode<T, I> {
     this.spell = propNotNull(NODE_STATE.getState(param.get("spell")), "spell");
     this.attributes = (Map<String, Object>) param.get("attributes");
     this.parent = (String) param.getOrDefault("parent", "");
-    this.value = PS_VALUE_FORMAT.<T, I>classifier(param);
+    this.value = PS_VALUE_FORMAT.classifier(param);
   }
 
   protected <R> R propNotNull(R target, String name) {
@@ -50,19 +50,19 @@ public class PsNode<T, I> {
     STRING("string", () -> new PsString()),
     DATE("date", () -> new PsDate()),
     MAP("map", () -> new PsMap()),
-    ARRAY("array", () -> new PsArray());
+    ARRAY("array", () -> new PsArray<>());
 
     private final String type;
-    private final Supplier<? extends PsValue> transform;
+    private final Supplier<? extends PsValue<?>> transform;
 
-    PS_VALUE_FORMAT(String type, Supplier<? extends PsValue> transform) {
+    PS_VALUE_FORMAT(String type, Supplier<? extends PsValue<?>> transform) {
       this.type = type;
       this.transform = transform;
     }
 
     @SuppressWarnings("unchecked")
-    private static <T, I> PsValue<T, I> classifier(Map<String, Object> param) {
-      return Arrays.stream(PS_VALUE_FORMAT.values())
+    private static <I> PsValue<I> classifier(Map<String, Object> param) {
+      return (PsValue<I>)Arrays.stream(PS_VALUE_FORMAT.values())
               .filter(v -> v.type.equalsIgnoreCase(param.get("type").toString().toLowerCase()))
 //              .peek(System.out::println)
               .findFirst()

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * @see
  * @since 20. 7. 4. Saturday
  */
-public final class PsDate implements PsValue<PsDate, LocalDateTime> {
+public final class PsDate implements PsValue<LocalDateTime> {
   private LocalDateTime value = LocalDateTime.now();
 
   @Override

@@ -27,7 +27,7 @@ class PsArrayTest extends PsNodeTest {
   @Test
   void testGenericImplement() {
     LinkedHashMap<String, Object> param = super.linked.get(4);
-    PsNode<PsArray<Map<String, Object>>, List<Map<String, Object>>> node = new PsNode<>(param);
+    PsNode<List<Map<String, Object>>> node = new PsNode<>(param);
     Map<String, Object> expected = new LinkedHashMap<>();
     List<Map<String, Object>> actual = node.getValue().setImpl(testParam(expected));
 

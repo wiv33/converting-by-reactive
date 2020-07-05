@@ -13,7 +13,7 @@ import java.util.List;
  * @since 20. 7. 4. Saturday
  */
 
-public final class PsArray<U> implements PsValue<PsArray<U>, List<? extends U>> {
+public final class PsArray<U> implements PsValue<List<? extends U>> {
   private List<? extends U> value = new LinkedList<>();
 
   @Override

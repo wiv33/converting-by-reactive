@@ -12,8 +12,8 @@ package org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker;
  * @since 20. 7. 4. Saturday
  */
 
-public interface PsValue<T, I> {
-  T getValue();
+public interface PsValue<I> {
+  PsValue<I> getValue();
 
   I getImpl();
 
