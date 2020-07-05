@@ -14,10 +14,8 @@ import reactor.test.StepVerifier;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,15 +30,15 @@ import static org.junit.jupiter.api.Assertions.*;
  * }
  * @since 20. 7. 4. Saturday
  */
-class PsNodeTest {
+public class PsNodeTest {
   // input
   String str;
   ObjectMapper mapper;
-  List<LinkedHashMap<String, Object>> linked;
+  protected List<LinkedHashMap<String, Object>> linked;
   Flux<LinkedHashMap<String, Object>> publisher;
 
   @BeforeEach
-  void setUp() throws IOException {
+  public void setUp() throws IOException {
     str = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/form/model/input-one-depth.json"));
     mapper = new ObjectMapper();
     linked = mapper.readValue(str, new TypeReference<>() {
@@ -112,22 +110,5 @@ class PsNodeTest {
             ))
             .thenCancel()
             .verify();
-  }
-
-  @Test
-  void testGenericImplement() {
-    LinkedHashMap<String, Object> param = this.linked.get(4);
-    PsNode<PsArray<Map<String, Object>>, List<Map<String, Object>>> node = new PsNode<>(param);
-    Map<String, Object> expected = new LinkedHashMap<>();
-    List<Map<String, Object>> actual = node.getValue().setImpl(testParam(expected));
-
-    assertEquals(expected.get("myFirst"), actual.get(0).get("myFirst"));
-  }
-
-  private ArrayList<Map<String, Object>> testParam(Map<String, Object> stringObjectLinkedHashMap) {
-    stringObjectLinkedHashMap.put("myFirst", "test");
-    ArrayList<Map<String, Object>> linkedHashMaps = new ArrayList<>();
-    linkedHashMaps.add(stringObjectLinkedHashMap);
-    return linkedHashMaps;
   }
 }
