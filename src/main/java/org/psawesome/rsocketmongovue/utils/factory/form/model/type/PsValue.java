@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker;
+package org.psawesome.rsocketmongovue.utils.factory.form.model.type;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]

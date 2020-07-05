@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsArray;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsDate;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsMap;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsString;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsArray;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsDate;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsMap;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsString;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 

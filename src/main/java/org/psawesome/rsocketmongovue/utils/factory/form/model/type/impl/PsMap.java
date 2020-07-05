@@ -1,6 +1,6 @@
-package org.psawesome.rsocketmongovue.utils.factory.form.model.type;
+package org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl;
 
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker.PsValue;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsValue;
 
 import java.util.LinkedHashMap;
 

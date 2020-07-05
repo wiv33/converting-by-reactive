@@ -1,11 +1,11 @@
 package org.psawesome.rsocketmongovue.utils.factory.form.model;
 
 import lombok.Getter;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsArray;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsDate;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsMap;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsString;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker.PsValue;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsValue;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsArray;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsDate;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsMap;
+import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsString;
 
 import java.util.Arrays;
 import java.util.Map;
