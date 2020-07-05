@@ -25,21 +25,21 @@ import java.util.function.Supplier;
  */
 
 @Getter
-public class PsNode<T> {
+public class PsNode<T, I> {
   private String name;
   private Map<String, Object> attributes;
   private String parent;
   private NODE_STATE cdata;
   private NODE_STATE spell;
-  private PsValue value;
+  private PsValue<T, I> value;
 
   public PsNode(Map<String, Object> param) {
     this.name = propNotNull((String) param.get("name"), "name");
-    this.attributes = (Map<String, Object>) param.get("attributes");
-    this.parent = (String) param.get("parent");
     this.cdata = propNotNull(NODE_STATE.getState(param.get("cdata")), "cdata");
     this.spell = propNotNull(NODE_STATE.getState(param.get("spell")), "spell");
-    this.value = PS_VALUE_FORMAT.classifier(param);
+    this.attributes = (Map<String, Object>) param.get("attributes");
+    this.parent = (String) param.getOrDefault("parent", "");
+    this.value = PS_VALUE_FORMAT.<T, I>classifier(param);
   }
 
   protected <R> R propNotNull(R target, String name) {
@@ -60,9 +60,10 @@ public class PsNode<T> {
       this.transform = transform;
     }
 
-    private static PsValue classifier(Map<String, Object> param) {
+    @SuppressWarnings("unchecked")
+    private static <T, I> PsValue<T, I> classifier(Map<String, Object> param) {
       return Arrays.stream(PS_VALUE_FORMAT.values())
-              .filter(v -> v.type.equals(param.get("type").toString().toLowerCase()))
+              .filter(v -> v.type.equalsIgnoreCase(param.get("type").toString().toLowerCase()))
 //              .peek(System.out::println)
               .findFirst()
               .orElseThrow(NullPointerException::new)

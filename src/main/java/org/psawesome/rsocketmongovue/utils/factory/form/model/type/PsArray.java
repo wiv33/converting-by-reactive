@@ -13,17 +13,22 @@ import java.util.List;
  * @since 20. 7. 4. Saturday
  */
 
-public final class PsArray implements PsValue {
+public final class PsArray implements PsValue<PsArray, List<?>> {
   private List<?> value = new LinkedList<>();
 
   @Override
-  public <T> T getValue() {
-    return (T) value;
+  public PsArray getValue() {
+    return this;
   }
 
   @Override
-  public <T> T setValue(T value) {
-    this.value = (List<?>) value;
-    return (T) this.value;
+  public List<?> getImpl() {
+    return value;
   }
+
+  @Override
+  public List<?> setImpl(List<?> value) {
+    return this.value = value;
+  }
+
 }

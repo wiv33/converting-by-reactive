@@ -12,22 +12,22 @@ import java.util.LinkedHashMap;
  * @since 20. 7. 4. Saturday
  */
 
-public final class PsMap implements PsValue {
-  private LinkedHashMap<String, Object> value;
+public final class PsMap implements PsValue<PsMap, LinkedHashMap<String, Object>> {
+  private LinkedHashMap<String, Object> value= new LinkedHashMap<>();;
 
-  public PsMap() {
-    this.value = new LinkedHashMap<>();
+  @Override
+  public PsMap getValue() {
+    return this;
   }
 
   @Override
-  public  LinkedHashMap<String, Object> getValue() {
-    return value;
+  public LinkedHashMap<String, Object> getImpl() {
+    return this.value;
   }
 
   @Override
-  public <T> T setValue(T value) {
-    this.value.putAll((LinkedHashMap<String, Object>) value);
-    return ((T) this.value);
+  public LinkedHashMap<String, Object> setImpl(LinkedHashMap<String, Object> value) {
+    return this.value = value;
   }
 
 }
