@@ -14,8 +14,10 @@ import reactor.test.StepVerifier;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -111,5 +113,21 @@ class PsNodeTest {
             .thenCancel()
             .verify();
   }
-  
+
+  @Test
+  void testGenericImplement() {
+    LinkedHashMap<String, Object> param = this.linked.get(4);
+    PsNode<PsArray<Map<String, Object>>, List<Map<String, Object>>> node = new PsNode<>(param);
+    Map<String, Object> expected = new LinkedHashMap<>();
+    List<Map<String, Object>> actual = node.getValue().setImpl(testParam(expected));
+
+    assertEquals(expected.get("myFirst"), actual.get(0).get("myFirst"));
+  }
+
+  private ArrayList<Map<String, Object>> testParam(Map<String, Object> stringObjectLinkedHashMap) {
+    stringObjectLinkedHashMap.put("myFirst", "test");
+    ArrayList<Map<String, Object>> linkedHashMaps = new ArrayList<>();
+    linkedHashMaps.add(stringObjectLinkedHashMap);
+    return linkedHashMaps;
+  }
 }
