@@ -1,5 +1,6 @@
 package org.psawesome.rsocketmongovue.utils.factory.form.model;
 
+import lombok.Getter;
 import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsArray;
 import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsDate;
 import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsMap;
@@ -23,28 +24,29 @@ import java.util.function.Supplier;
  * @since 20. 7. 4. Saturday
  */
 
+@Getter
 public class PsNode<T> {
-
-  private T value;
+  private String name;
+  private Map<String, Object> attributes;
+  private String parent;
+  private NODE_STATE cdata;
+  private NODE_STATE spell;
+  private PsValue value;
 
   public PsNode(Map<String, Object> param) {
-    this.value = PS_VALUE.classifier(param).getValue();
-  }
-
-  public T getValue() {
-    return value;
-  }
-
-  public PsNode<T> setValue(T value) {
-    this.value = value;
-    return this;
+    this.name = propNotNull((String) param.get("name"), "name");
+    this.attributes = (Map<String, Object>) param.get("attributes");
+    this.parent = (String) param.get("parent");
+    this.cdata = propNotNull(NODE_STATE.getState(param.get("cdata")), "cdata");
+    this.spell = propNotNull(NODE_STATE.getState(param.get("spell")), "spell");
+    this.value = PS_VALUE_FORMAT.classifier(param);
   }
 
   protected <R> R propNotNull(R target, String name) {
     return Objects.requireNonNull(target, String.format("must not null node [%s]", name));
   }
 
-  private enum PS_VALUE {
+  private enum PS_VALUE_FORMAT {
     STRING("string", () -> new PsString()),
     DATE("date", () -> new PsDate()),
     MAP("map", () -> new PsMap()),
@@ -53,13 +55,13 @@ public class PsNode<T> {
     private final String type;
     private final Supplier<? extends PsValue> transform;
 
-    PS_VALUE(String type, Supplier<? extends PsValue> transform) {
+    PS_VALUE_FORMAT(String type, Supplier<? extends PsValue> transform) {
       this.type = type;
       this.transform = transform;
     }
 
     private static PsValue classifier(Map<String, Object> param) {
-      return Arrays.stream(PS_VALUE.values())
+      return Arrays.stream(PS_VALUE_FORMAT.values())
               .filter(v -> v.type.equals(param.get("type").toString().toLowerCase()))
 //              .peek(System.out::println)
               .findFirst()
@@ -74,10 +76,20 @@ public class PsNode<T> {
     NONE("NONE"),
     TO_UPPER("TO_UPPER"),
     TO_LOWER("TO_LOWER");
+
     private final String state;
 
     NODE_STATE(String state) {
       this.state = state;
+    }
+
+    public static NODE_STATE getState(Object state) {
+      return Arrays.stream(NODE_STATE.values())
+              .peek(System.out::println)
+              .filter(v -> v.state.equalsIgnoreCase(state.toString().toLowerCase()))
+              .findFirst()
+              .orElseThrow(NullPointerException::new)
+              ;
     }
   }
 }

@@ -14,4 +14,6 @@ package org.psawesome.rsocketmongovue.utils.factory.form.model.type.marker;
 
 public interface PsValue {
   <T> T getValue();
+
+  <T> T setValue(T value);
 }

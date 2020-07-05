@@ -16,6 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -32,6 +35,7 @@ class PsNodeTest {
   String str;
   ObjectMapper mapper;
   List<LinkedHashMap<String, Object>> linked;
+  Flux<LinkedHashMap<String, Object>> publisher;
 
   @BeforeEach
   void setUp() throws IOException {
@@ -39,6 +43,13 @@ class PsNodeTest {
     mapper = new ObjectMapper();
     linked = mapper.readValue(str, new TypeReference<>() {
     });
+
+    publisher = Flux.fromStream(getStream())
+            .log();
+  }
+
+  private Stream<LinkedHashMap<String, Object>> getStream() {
+    return linked.stream().peek(System.out::println);
   }
 
   @Test
@@ -53,7 +64,7 @@ class PsNodeTest {
   @Test
   void testOneDepthJson() throws IOException {
 
-    StepVerifier.create(Flux.fromStream(linked.stream())
+    StepVerifier.create(Flux.fromStream(getStream())
             .map(PsNode::new)
             .map(node -> node.getValue().getClass().getName())
             .log()
@@ -72,11 +83,32 @@ class PsNodeTest {
 
   @Test
   void testNodeGetValue() {
-    StepVerifier.create(Flux.fromStream(linked.stream())
+    StepVerifier.create(Flux.fromStream(getStream())
             .map(PsNode::new)
-            .map(objectPsNode -> objectPsNode.getValue().getClass().getName())
+            .map(objectPsNode -> objectPsNode.getValue().getValue())
             .log())
             .expectNextCount(9)
             .verifyComplete();
+  }
+
+  @Test
+  void testNodeSet() {
+    StepVerifier.create(publisher.map(PsNode::new))
+            .consumeNextWith(node -> assertAll(
+                    () -> assertNull(node.getParent()),
+                    () -> assertNotNull(node.getName()),
+                    () -> assertNotNull(node.getAttributes()),
+                    () -> assertNotNull(node.getCdata()),
+                    () -> assertNotNull(node.getSpell())
+            ))
+            .consumeNextWith(node -> assertAll(
+                    () -> assertNotNull(node.getName()),
+                    () -> assertNotNull(node.getAttributes()),
+                    () -> assertNotNull(node.getParent()),
+                    () -> assertNotNull(node.getCdata()),
+                    () -> assertNotNull(node.getSpell())
+            ))
+            .thenCancel()
+            .verify();
   }
 }

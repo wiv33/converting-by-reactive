@@ -16,14 +16,17 @@ import java.time.LocalDateTime;
  * @since 20. 7. 4. Saturday
  */
 public final class PsDate implements PsValue {
-  private LocalDateTime value;
-
-  public PsDate() {
-    this.value = LocalDateTime.now();
-  }
+  private LocalDateTime value = LocalDateTime.now();
 
   @Override
   public <T> T getValue() {
     return (T) value;
   }
+
+  @Override
+  public <T> T setValue(T value) {
+    this.value = (LocalDateTime) value;
+    return ((T) this.value);
+  }
+
 }

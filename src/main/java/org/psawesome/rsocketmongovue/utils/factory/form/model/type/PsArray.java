@@ -14,15 +14,16 @@ import java.util.List;
  */
 
 public final class PsArray implements PsValue {
-
-  private List<?> value;
-
-  public PsArray() {
-    this.value = new LinkedList<>();
-  }
+  private List<?> value = new LinkedList<>();
 
   @Override
   public <T> T getValue() {
     return (T) value;
+  }
+
+  @Override
+  public <T> T setValue(T value) {
+    this.value = (List<?>) value;
+    return (T) this.value;
   }
 }

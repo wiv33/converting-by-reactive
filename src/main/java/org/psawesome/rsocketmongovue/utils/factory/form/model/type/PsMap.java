@@ -20,7 +20,14 @@ public final class PsMap implements PsValue {
   }
 
   @Override
-  public <T> T getValue() {
-    return (T) value;
+  public  LinkedHashMap<String, Object> getValue() {
+    return value;
   }
+
+  @Override
+  public <T> T setValue(T value) {
+    this.value.putAll((LinkedHashMap<String, Object>) value);
+    return ((T) this.value);
+  }
+
 }
