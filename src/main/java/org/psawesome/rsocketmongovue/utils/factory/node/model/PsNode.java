@@ -1,34 +1,27 @@
-package org.psawesome.rsocketmongovue.utils.factory.form.model;
+package org.psawesome.rsocketmongovue.utils.factory.node.model;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
-import lombok.Getter;
-import lombok.ToString;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsValue;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsArray;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsDate;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsMap;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsString;
+import org.psawesome.rsocketmongovue.utils.factory.node.model.type.PsValue;
+import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsArray;
+import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsDate;
+import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsMap;
+import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsString;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
- * @role 클라이언트의 값(Map)을 타입화하여 Converter에게 전달한다.
- * @responsibility 필요한 모든 값을 각 타입에 맞도록 자신에게 저장할 수 있어야 한다.
+ * @role 클라이언트의 값(Map)을 타입화하여 Converter가 활용할 수 있도록 구조화
+ * @responsibility 모든 값의 타입 정보와 원하는 format(xml, json)으로 변환 시 해당 타입의 필요한 값을 반환
  * @cooperate {
  * input: PsConverter로부터 클라이언트가 필요한 format의 정보 값
- * output: PsConverter에게 자신(노드)의 완성된 형식을 전달
+ * output: PsConverter에게 자신(노드)을 전달
  * }
- * @see org.psawesome.rsocketmongovue.utils.factory.form.model.type
+ * @see org.psawesome.rsocketmongovue.utils.factory.node.model.type
  * @since 20. 7. 4. Saturday
  */
 
@@ -52,11 +45,11 @@ public class PsNode<I> {
 
   public PsNode(Map<String, Object> param) {
     this.name = propNotNull((String) param.get("name"), "name");
-    this.cdata = propNotNull(NODE_STATE.getState(param.get("cdata")), "cdata");
-    this.spell = propNotNull(NODE_STATE.getState(param.get("spell")), "spell");
+    this.cdata = propNotNull(NODE_STATE.getState(param.get("cdata").toString().toUpperCase()), "cdata");
+    this.spell = propNotNull(NODE_STATE.getState(param.get("spell").toString().toUpperCase()), "spell");
     this.attributes = (Map<String, Object>) param.get("attributes");
     this.parent = (String) param.getOrDefault("parent", "");
-    this.value = PS_VALUE_FORMAT.classifier(param);
+    this.value = PS_VALUE_FORMAT.classifier(param.get("type").toString().toUpperCase());
   }
 
   protected <R> R propNotNull(R target, String name) {
@@ -78,13 +71,17 @@ public class PsNode<I> {
     }
 
     @SuppressWarnings("unchecked")
-    private static <I> PsValue<I> classifier(Map<String, Object> param) {
+    private static <I> PsValue<I> classifier(String type) {
+      return (PsValue<I>)PS_VALUE_FORMAT.valueOf(type)
+              .transform.get();
+/*
       return (PsValue<I>)Arrays.stream(PS_VALUE_FORMAT.values())
               .filter(v -> v.type.equalsIgnoreCase(param.get("type").toString().toLowerCase()))
 //              .peek(System.out::println)
               .findFirst()
               .orElseThrow(NullPointerException::new)
               .transform.get();
+*/
     }
 
   }
@@ -101,13 +98,17 @@ public class PsNode<I> {
       this.state = state;
     }
 
-    public static NODE_STATE getState(Object state) {
+    public static NODE_STATE getState(String state) {
+      return NODE_STATE.valueOf(state);
+
+/*
       return Arrays.stream(NODE_STATE.values())
 //              .peek(System.out::println)
               .filter(v -> v.state.equalsIgnoreCase(state.toString().toLowerCase()))
               .findFirst()
               .orElseThrow(NullPointerException::new)
               ;
+*/
     }
   }
 }

@@ -1,14 +1,14 @@
-package org.psawesome.rsocketmongovue.utils.factory.form.model;
+package org.psawesome.rsocketmongovue.utils.factory.node.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsArray;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsDate;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsMap;
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl.PsString;
+import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsArray;
+import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsDate;
+import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsMap;
+import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsString;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
@@ -40,8 +40,8 @@ public class PsNodeTest {
 
   @BeforeEach
   public void setUp() throws IOException {
-//    strLinux = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/form/model/input-one-depth.json"));
-    strWin = Files.readString(Path.of("C:\\private\\projects\\rsocket-mongo-vue\\src\\test\\java\\org\\psawesome\\rsocketmongovue\\utils\\factory\\form\\model\\input-one-depth.json"));
+//    strLinux = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/node/model/input-one-depth.json"));
+    strWin = Files.readString(Path.of("C:\\private\\projects\\rsocket-mongo-vue\\src\\test\\java\\org\\psawesome\\rsocketmongovue\\utils\\factory\\node\\model\\input-one-depth.json"));
     mapper = new ObjectMapper();
 //    linked = mapper.readValue(strLinux, new TypeReference<>() {
 //    });
@@ -53,16 +53,19 @@ public class PsNodeTest {
     winpub = Flux.fromStream(windowLinked.stream()
 //            .peek(System.out::println)
     ).log();
+
+    linked = windowLinked;
+    publisher = winpub;
   }
 
   private Stream<LinkedHashMap<String, Object>> getStream() {
     return linked.stream().peek(System.out::println);
   }
 
-  @Test
+//  @Test
   @Deprecated
   void testMultiDepthJson() throws IOException {
-    String str = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/form/model/input-multi-depth.json"));
+    String str = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/node/model/input-multi-depth.json"));
     ObjectMapper mapper = new ObjectMapper();
     LinkedHashMap<String, Object> stringObjectMap = mapper.readValue(str, new TypeReference<>() {
     });

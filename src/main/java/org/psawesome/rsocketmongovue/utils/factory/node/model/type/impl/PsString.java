@@ -1,6 +1,6 @@
-package org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl;
+package org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl;
 
-import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsValue;
+import org.psawesome.rsocketmongovue.utils.factory.node.model.type.PsValue;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]

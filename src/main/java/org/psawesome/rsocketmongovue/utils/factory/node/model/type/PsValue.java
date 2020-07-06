@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.utils.factory.form.model.type;
+package org.psawesome.rsocketmongovue.utils.factory.node.model.type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
