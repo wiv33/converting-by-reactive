@@ -1,5 +1,6 @@
 package org.psawesome.rsocketmongovue.utils.factory.form.model;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,20 +33,26 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PsNodeTest {
   // input
-  String str;
+  String strLinux, strWin;
   ObjectMapper mapper;
-  protected List<LinkedHashMap<String, Object>> linked;
-  Flux<LinkedHashMap<String, Object>> publisher;
+  protected List<LinkedHashMap<String, Object>> linked, windowLinked;
+  Flux<LinkedHashMap<String, Object>> publisher, winpub;
 
   @BeforeEach
   public void setUp() throws IOException {
-    str = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/form/model/input-one-depth.json"));
+//    strLinux = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/form/model/input-one-depth.json"));
+    strWin = Files.readString(Path.of("C:\\private\\projects\\rsocket-mongo-vue\\src\\test\\java\\org\\psawesome\\rsocketmongovue\\utils\\factory\\form\\model\\input-one-depth.json"));
     mapper = new ObjectMapper();
-    linked = mapper.readValue(str, new TypeReference<>() {
+//    linked = mapper.readValue(strLinux, new TypeReference<>() {
+//    });
+    windowLinked = mapper.readValue(strWin, new TypeReference<>() {
     });
 
-    publisher = Flux.fromStream(getStream())
-            .log();
+//    publisher = Flux.fromStream(getStream())
+//            .log();
+    winpub = Flux.fromStream(windowLinked.stream()
+//            .peek(System.out::println)
+    ).log();
   }
 
   private Stream<LinkedHashMap<String, Object>> getStream() {
@@ -110,5 +117,23 @@ public class PsNodeTest {
             ))
             .thenCancel()
             .verify();
+  }
+
+  @Test
+  void testJson() {
+    winpub.map(PsNode::new)
+            .log()
+            .map(value -> {
+              try {
+                System.out.println("value = " + value);
+                String s = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(value);
+                System.out.println("s = " + s);
+                return s;
+              } catch (JsonProcessingException e) {
+                return e.getMessage();
+              }
+            })
+    .log()
+    .subscribe(System.out::println);
   }
 }

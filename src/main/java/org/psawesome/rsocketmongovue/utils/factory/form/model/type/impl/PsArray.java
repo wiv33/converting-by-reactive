@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 public final class PsArray<U> implements PsValue<List<? extends U>> {
-  private List<? extends U> value = new LinkedList<>();
+  private List<? extends U> impl = new LinkedList<>();
 
   @Override
   public PsArray<U> getValue() {
@@ -23,12 +23,12 @@ public final class PsArray<U> implements PsValue<List<? extends U>> {
 
   @Override
   public List<? extends U> getImpl() {
-    return value;
+    return impl;
   }
 
   @Override
-  public List<? extends U> setImpl(List<? extends U> value) {
-    return this.value = value;
+  public List<? extends U> setImpl(List<? extends U> impl) {
+    return this.impl = impl;
   }
 
 }

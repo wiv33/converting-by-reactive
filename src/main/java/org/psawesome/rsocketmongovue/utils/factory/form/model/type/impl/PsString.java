@@ -11,7 +11,7 @@ import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsValue;
  */
 public final class PsString implements PsValue<String> {
 
-  private String value = "";
+  private String impl = "";
 
   @Override
   public PsString getValue() {
@@ -20,11 +20,11 @@ public final class PsString implements PsValue<String> {
 
   @Override
   public String getImpl() {
-    return this.value;
+    return this.impl;
   }
 
   @Override
-  public String setImpl(String value) {
-    return this.value = value;
+  public String setImpl(String impl) {
+    return this.impl = impl;
   }
 }

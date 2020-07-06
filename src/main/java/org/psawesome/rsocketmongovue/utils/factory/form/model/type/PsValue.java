@@ -1,5 +1,7 @@
 package org.psawesome.rsocketmongovue.utils.factory.form.model.type;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
  * @role
@@ -13,6 +15,7 @@ package org.psawesome.rsocketmongovue.utils.factory.form.model.type;
  */
 
 public interface PsValue<I> {
+  @JsonIgnore
   PsValue<I> getValue();
 
   I getImpl();

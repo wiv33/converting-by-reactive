@@ -1,5 +1,6 @@
 package org.psawesome.rsocketmongovue.utils.factory.form.model.type.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.psawesome.rsocketmongovue.utils.factory.form.model.type.PsValue;
 
 import java.util.LinkedHashMap;
@@ -13,7 +14,8 @@ import java.util.LinkedHashMap;
  */
 
 public final class PsMap<U> implements PsValue<LinkedHashMap<String, ? extends U>> {
-  private LinkedHashMap<String, ? extends U> value= new LinkedHashMap<>();;
+  private LinkedHashMap<String, ? extends U> impl = new LinkedHashMap<>();
+  ;
 
   @Override
   public PsMap<U> getValue() {
@@ -22,12 +24,12 @@ public final class PsMap<U> implements PsValue<LinkedHashMap<String, ? extends U
 
   @Override
   public LinkedHashMap<String, ? extends U> getImpl() {
-    return this.value;
+    return this.impl;
   }
 
   @Override
-  public LinkedHashMap<String, ? extends U> setImpl(LinkedHashMap<String, ? extends U> value) {
-    return this.value = value;
+  public LinkedHashMap<String, ? extends U> setImpl(LinkedHashMap<String, ? extends U> impl) {
+    return this.impl = impl;
   }
 
 }
