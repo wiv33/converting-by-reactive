@@ -1,16 +1,9 @@
-package org.psawesome.rsocketmongovue.utils.factory.node.model;
+package org.psawesome.rsocketmongovue.utils.factory.node.maker.model;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsArray;
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsDate;
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsMap;
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsString;
 import reactor.core.publisher.Flux;
-import reactor.test.StepVerifier;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,8 +11,6 @@ import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -29,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * input:
  * output:
  * }
+ *
+ * 노드 메이커를 통해서만 사용
  * @since 20. 7. 4. Saturday
  */
 public class PsNodeTest {
@@ -40,22 +33,22 @@ public class PsNodeTest {
 
   @BeforeEach
   public void setUp() throws IOException {
-//    strLinux = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/node/model/input-one-depth.json"));
-    strWin = Files.readString(Path.of("C:\\private\\projects\\rsocket-mongo-vue\\src\\test\\java\\org\\psawesome\\rsocketmongovue\\utils\\factory\\node\\model\\input-one-depth.json"));
+    strLinux = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/node/model/input-one-depth.json"));
+//    strWin = Files.readString(Path.of("C:\\private\\projects\\rsocket-mongo-vue\\src\\test\\java\\org\\psawesome\\rsocketmongovue\\utils\\factory\\node\\model\\input-one-depth.json"));
     mapper = new ObjectMapper();
-//    linked = mapper.readValue(strLinux, new TypeReference<>() {
-//    });
-    windowLinked = mapper.readValue(strWin, new TypeReference<>() {
+    linked = mapper.readValue(strLinux, new TypeReference<>() {
     });
+//    windowLinked = mapper.readValue(strWin, new TypeReference<>() {
+//    });
 
-//    publisher = Flux.fromStream(getStream())
-//            .log();
-    winpub = Flux.fromStream(windowLinked.stream()
+    publisher = Flux.fromStream(getStream())
+            .log();
+//    winpub = Flux.fromStream(windowLinked.stream()
 //            .peek(System.out::println)
-    ).log();
+//    ).log();
 
-    linked = windowLinked;
-    publisher = winpub;
+//    linked = windowLinked;
+//    publisher = winpub;
   }
 
   private Stream<LinkedHashMap<String, Object>> getStream() {
@@ -70,7 +63,7 @@ public class PsNodeTest {
     LinkedHashMap<String, Object> stringObjectMap = mapper.readValue(str, new TypeReference<>() {
     });
   }
-
+/*
   @Test
   void testOneDepthJson() throws IOException {
 
@@ -124,7 +117,7 @@ public class PsNodeTest {
 
   @Test
   void testJson() {
-    winpub.map(PsNode::new)
+    publisher.map(PsNode::new)
             .log()
             .map(value -> {
               try {
@@ -139,4 +132,5 @@ public class PsNodeTest {
     .log()
     .subscribe(System.out::println);
   }
+*/
 }

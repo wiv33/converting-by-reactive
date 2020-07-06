@@ -1,6 +1,4 @@
-package org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl;
-
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.PsValue;
+package org.psawesome.rsocketmongovue.utils.factory.node;
 
 import java.util.LinkedHashMap;
 
@@ -12,7 +10,7 @@ import java.util.LinkedHashMap;
  * @since 20. 7. 4. Saturday
  */
 
-public final class PsMap<U> implements PsValue<LinkedHashMap<String, ? extends U>> {
+ final class PsMap<U> implements PsValue<LinkedHashMap<String, ? extends U>> {
   private LinkedHashMap<String, ? extends U> impl = new LinkedHashMap<>();
   ;
 

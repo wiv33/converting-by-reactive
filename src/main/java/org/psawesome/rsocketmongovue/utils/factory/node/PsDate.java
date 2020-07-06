@@ -1,6 +1,4 @@
-package org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl;
-
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.PsValue;
+package org.psawesome.rsocketmongovue.utils.factory.node;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +13,7 @@ import java.time.LocalDateTime;
  * @see
  * @since 20. 7. 4. Saturday
  */
-public final class PsDate implements PsValue<LocalDateTime> {
+final class PsDate implements PsValue<LocalDateTime> {
   private LocalDateTime impl = LocalDateTime.now();
 
   @Override

@@ -1,13 +1,8 @@
-package org.psawesome.rsocketmongovue.utils.factory.node.model;
+package org.psawesome.rsocketmongovue.utils.factory.node;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.PsValue;
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsArray;
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsDate;
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsMap;
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl.PsString;
 
 import java.util.Map;
 import java.util.Objects;
@@ -21,12 +16,12 @@ import java.util.function.Supplier;
  * input: PsConverter로부터 클라이언트가 필요한 format의 정보 값
  * output: PsConverter에게 자신(노드)을 전달
  * }
- * @see org.psawesome.rsocketmongovue.utils.factory.node.model.type
+ * @see org.psawesome.rsocketmongovue.utils.factory.node.maker.model.type
  * @since 20. 7. 4. Saturday
  */
 
 @Data
-public class PsNode<I> {
+class PsNode<I> {
   private String name;
   @JsonIgnore
   private Map<String, Object> attributes;
@@ -72,7 +67,7 @@ public class PsNode<I> {
 
     @SuppressWarnings("unchecked")
     private static <I> PsValue<I> classifier(String type) {
-      return (PsValue<I>)PS_VALUE_FORMAT.valueOf(type)
+      return (PsValue<I>) PS_VALUE_FORMAT.valueOf(type)
               .transform.get();
 /*
       return (PsValue<I>)Arrays.stream(PS_VALUE_FORMAT.values())

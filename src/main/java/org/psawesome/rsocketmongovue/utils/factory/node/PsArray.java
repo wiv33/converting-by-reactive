@@ -1,6 +1,4 @@
-package org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl;
-
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.PsValue;
+package org.psawesome.rsocketmongovue.utils.factory.node;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.List;
  * @since 20. 7. 4. Saturday
  */
 
-public final class PsArray<U> implements PsValue<List<? extends U>> {
+final class PsArray<U> implements PsValue<List<? extends U>> {
   private List<? extends U> impl = new LinkedList<>();
 
   @Override

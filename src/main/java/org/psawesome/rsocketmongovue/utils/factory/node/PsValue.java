@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.utils.factory.node.model.type;
+package org.psawesome.rsocketmongovue.utils.factory.node;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @since 20. 7. 4. Saturday
  */
 
-public interface PsValue<I> {
+interface PsValue<I> {
   @JsonIgnore
   PsValue<I> getValue();
 

@@ -1,6 +1,4 @@
-package org.psawesome.rsocketmongovue.utils.factory.node.model.type.impl;
-
-import org.psawesome.rsocketmongovue.utils.factory.node.model.type.PsValue;
+package org.psawesome.rsocketmongovue.utils.factory.node;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -9,7 +7,7 @@ import org.psawesome.rsocketmongovue.utils.factory.node.model.type.PsValue;
  * @cooperate
  * @since 20. 7. 4. Saturday
  */
-public final class PsString implements PsValue<String> {
+final class PsString implements PsValue<String> {
 
   private String impl = "";
 
