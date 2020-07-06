@@ -1,8 +1,6 @@
-package org.psawesome.rsocketmongovue.utils.factory.node.maker.model.type;
+package org.psawesome.rsocketmongovue.utils.factory.node;
 
 import org.junit.jupiter.api.Test;
-import org.psawesome.rsocketmongovue.utils.factory.node.maker.model.PsNodeTest;
-import org.psawesome.rsocketmongovue.utils.factory.node.maker.model.type.impl.PsNode;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

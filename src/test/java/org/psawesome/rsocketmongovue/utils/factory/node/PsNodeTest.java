@@ -1,9 +1,12 @@
-package org.psawesome.rsocketmongovue.utils.factory.node.maker.model;
+package org.psawesome.rsocketmongovue.utils.factory.node;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
+import reactor.test.StepVerifier;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +14,8 @@ import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -24,7 +29,7 @@ import java.util.stream.Stream;
  * 노드 메이커를 통해서만 사용
  * @since 20. 7. 4. Saturday
  */
-public class PsNodeTest {
+class PsNodeTest {
   // input
   String strLinux, strWin;
   ObjectMapper mapper;
@@ -33,8 +38,8 @@ public class PsNodeTest {
 
   @BeforeEach
   public void setUp() throws IOException {
-    strLinux = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/node/model/input-one-depth.json"));
-//    strWin = Files.readString(Path.of("C:\\private\\projects\\rsocket-mongo-vue\\src\\test\\java\\org\\psawesome\\rsocketmongovue\\utils\\factory\\node\\model\\input-one-depth.json"));
+    strLinux = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/node/input-one-depth.json"));
+//    strWin = Files.readString(Path.of("C:\\private\\projects\\rsocket-mongo-vue\\src\\test\\java\\org\\psawesome\\rsocketmongovue\\utils\\factory\\node\\input-one-depth.json"));
     mapper = new ObjectMapper();
     linked = mapper.readValue(strLinux, new TypeReference<>() {
     });
@@ -63,7 +68,6 @@ public class PsNodeTest {
     LinkedHashMap<String, Object> stringObjectMap = mapper.readValue(str, new TypeReference<>() {
     });
   }
-/*
   @Test
   void testOneDepthJson() throws IOException {
 
@@ -132,5 +136,5 @@ public class PsNodeTest {
     .log()
     .subscribe(System.out::println);
   }
-*/
+
 }
