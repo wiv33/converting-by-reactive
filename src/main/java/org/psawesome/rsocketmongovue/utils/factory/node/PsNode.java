@@ -38,6 +38,8 @@ class PsNode<I> {
     return value.getImpl();
   }
 
+  private PsNode() { }
+
   public PsNode(Map<String, Object> param) {
     this.name = propNotNull((String) param.get("name"), "name");
     this.cdata = propNotNull(NODE_STATE.getState(param.get("cdata").toString().toUpperCase()), "cdata");

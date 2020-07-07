@@ -12,7 +12,8 @@ plugins {
 
 group = 'org.psawesome'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '13'
+targetCompatibility = '13'
 
 ext {
     set('springCloudVersion', "Hoxton.SR5")
