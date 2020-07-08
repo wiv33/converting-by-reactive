@@ -4,12 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.BaseStream;
 import java.util.stream.Stream;
 
@@ -19,20 +19,19 @@ public interface NodeMaker {
     return null;
   }
 
-  default <T, V> Mono<LinkedHashMap<T, V>> init(Path path) {
+  default Flux<PsNode<Object>> init(Path path) {
     return Flux.using(() -> Files.lines(path), Flux::fromStream, BaseStream::close)
-            .reduce(String::concat)
             .log()
-            .map(item -> {
+            .reduce(String::concat)
+            .map(json -> {
               try {
-                return new ObjectMapper().readValue(item, new TypeReference<List<LinkedHashMap<T, V>>>() {
+                return new ObjectMapper().readValue(json, new TypeReference<List<Map<String, Object>>>() {
                 }).stream();
               } catch (JsonProcessingException e) {
-                throw new NullPointerException();
+                throw new RuntimeException(e.getMessage());
               }
             })
-            .flatMap(mapStream -> Flux.fromStream(mapStream))
-            .map(s )
+            .flatMapMany(mapStream -> Flux.fromStream(mapStream.map(PsNode::new)))
             .log();
   }
 

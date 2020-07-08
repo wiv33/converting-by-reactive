@@ -50,8 +50,8 @@ class NodeMakerTest implements NodeMaker {
 
   @Test
   void testFilePath() {
-    StepVerifier.create(this.<String, Object>init(path))
-            .expectNextCount(1)
+    StepVerifier.create(this.init(path))
+            .expectNextCount(9)
             .verifyComplete();
   }
 
