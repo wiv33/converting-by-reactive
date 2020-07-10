@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,7 +23,7 @@ import java.util.Map;
 @Getter
 @ToString @EqualsAndHashCode
 public class TransformedRequest {
-  private final Map<String, Object> from;
+  private final List<Map<String, Object>> from;
   // String으로 받을 수 있는지 명확하지가 않음
   private final TRANSFORMED_TYPE to;
 

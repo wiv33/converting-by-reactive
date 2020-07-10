@@ -1,79 +1,87 @@
-[{
-  "name": "rss",
-  "type": "map",
-  "attributes": {
-    "name": "lower",
-    "title": "myRss",
-    "version": "1.0"
+[
+  {
+    "name": "rss",
+    "type": "map",
+    "attributes": {
+      "name": "lower",
+      "title": "myRss",
+      "version": "1.0"
+    },
+    "parent": null,
+    "cdata": "none",
+    "spell": "to_lower"
   },
-  "parent": null,
-  "cdata": "none",
-  "spell": "to_lower"
-},{
-  "name": "version",
-  "type": "string",
-  "attributes": {
-    "version": "1.0"
+  {
+    "name": "version",
+    "type": "string",
+    "attributes": {
+      "version": "1.0"
+    },
+    "parent": "rss",
+    "cdata": "active",
+    "spell": "to_lower"
   },
-  "parent": "rss",
-  "cdata": "active",
-  "spell": "to_lower"
-},{
-  "name": "title",
-  "type": "string",
-
-  "parent": "rss",
-  "cdata": "active",
-  "spell": "to_upper"
-},{
-  "name": "date",
-  "type": "date",
-
-  "parent": "rss",
-  "cdata": "active",
-  "dateFormat": "yyyy-MM-dd HH:mm:ss",
-  "spell": "none",
-  "value": "2020-07-06 20:30:33"
-},{
-  "name": "documents",
-  "type": "array",
-  "attributes": {
-    "site": "daily"
+  {
+    "name": "title",
+    "type": "string",
+    "parent": "rss",
+    "cdata": "active",
+    "spell": "to_upper"
   },
-  "parent": "rss",
-  "cdata": "active",
-  "spell": "to_lower"
-},{
-  "name": "document",
-  "type": "map",
-  "defaultCnt": 5,
-  "parent": "documents",
-  "cdata": "active",
-  "spell": "none",
-  "value": {
-    "id": "psawesome",
-    "name": "stringBuilder"
+  {
+    "name": "date",
+    "type": "date",
+    "parent": "rss",
+    "cdata": "active",
+    "dateFormat": "yyyy-MM-dd HH:mm:ss",
+    "spell": "none",
+    "value": "2020-07-06 20:30:33"
+  },
+  {
+    "name": "documents",
+    "type": "array",
+    "attributes": {
+      "site": "daily"
+    },
+    "parent": "rss",
+    "cdata": "active",
+    "spell": "to_lower"
+  },
+  {
+    "name": "document",
+    "type": "map",
+    "defaultCnt": 5,
+    "parent": "documents",
+    "cdata": "active",
+    "spell": "none",
+    "value": {
+      "id": "psawesome",
+      "name": "stringBuilder"
+    }
+  },
+  {
+    "name": "document-date",
+    "type": "date",
+    "parent": "documents",
+    "cdata": "active",
+    "spell": "to_lower"
+  },
+  {
+    "name": "deploy",
+    "type": "string",
+    "attributes": {
+      "name": "deployment",
+      "version": "1.0"
+    },
+    "parent": "documents",
+    "cdata": "active",
+    "spell": "to_upper"
+  },
+  {
+    "name": "version",
+    "type": "string",
+    "parent": "rss",
+    "cdata": "active",
+    "spell": "to_lower"
   }
-},{
-  "name": "document-date",
-  "type": "date",
-  "parent": "documents",
-  "cdata": "active",
-  "spell": "to_lower"
-},{
-  "name": "deploy",
-  "type": "string",
-  "attributes": {
-    "name": "deployment",
-    "version": "1.0"
-  },
-  "parent": "documents",
-  "cdata": "active",
-  "spell": "to_upper"
-},{
-  "name": "version",
-  "type": "string",
-  "parent": "rss",
-  "cdata": "active",
-  "spell": "to_lower"
-}]
+]

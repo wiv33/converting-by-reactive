@@ -1,5 +1,9 @@
 package org.psawesome.rsocketmongovue.domain.transform;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.psawesome.rsocketmongovue.domain.transform.request.TransformedRequest;
 
 /**
@@ -13,10 +17,8 @@ import org.psawesome.rsocketmongovue.domain.transform.request.TransformedRequest
  * @see
  * @since 20. 7. 11. Saturday
  */
+@RequiredArgsConstructor
+@Getter @ToString @EqualsAndHashCode
 public class Transformed {
-  TransformedRequest request;
-
-  public Transformed(TransformedRequest request) {
-    this.request = request;
-  }
+  private final TransformedRequest request;
 }
