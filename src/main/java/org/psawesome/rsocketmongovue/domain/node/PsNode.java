@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.utils.factory.node;
+package org.psawesome.rsocketmongovue.domain.node;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,7 +16,7 @@ import java.util.function.Supplier;
  * input: PsConverter로부터 클라이언트가 필요한 format의 정보 값
  * output: PsConverter에게 자신(노드)을 전달
  * }
- * @see org.psawesome.rsocketmongovue.utils.factory.node
+ * @see org.psawesome.rsocketmongovue.domain.node
  * @since 20. 7. 4. Saturday
  */
 

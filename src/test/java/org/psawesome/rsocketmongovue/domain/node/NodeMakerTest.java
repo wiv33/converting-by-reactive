@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.utils.factory.node;
+package org.psawesome.rsocketmongovue.domain.node;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ class NodeMakerTest implements NodeMaker {
 
   @Test
   void testFilePath() {
-    StepVerifier.create(this.init(path))
+    StepVerifier.create(this.init(path).map(PsNode::getValueImpl))
             .expectNextCount(9)
             .verifyComplete();
   }

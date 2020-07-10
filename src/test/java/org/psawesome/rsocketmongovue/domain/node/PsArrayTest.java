@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.utils.factory.node;
+package org.psawesome.rsocketmongovue.domain.node;
 
 import org.junit.jupiter.api.Test;
 
