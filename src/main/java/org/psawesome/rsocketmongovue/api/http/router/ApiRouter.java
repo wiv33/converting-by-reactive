@@ -3,6 +3,7 @@ package org.psawesome.rsocketmongovue.api.http.router;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.psawesome.rsocketmongovue.api.http.handler.PsUserHandler;
+import org.psawesome.rsocketmongovue.api.http.handler.TransformedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class ApiRouter {
 
   private final PsUserHandler psUserHandler;
+  private final TransformedHandler transformedHandler;
 
   @Bean
   public RouterFunction<?> userRouter() {

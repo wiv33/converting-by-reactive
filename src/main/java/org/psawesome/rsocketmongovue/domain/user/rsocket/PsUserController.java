@@ -34,11 +34,4 @@ public class PsUserController {
             .log();
   }
 
-  // 여기엔... transformed가능한 리스트 출력
-  // 이 정도는 http에서 해도 되지 않을까?
-  @MessageMapping("transformed.help")
-  public Mono<?> transformedAll() {
-    return Mono.just(List.of("TEXT", "JSON", "XML"))
-            .log();
-  }
 }
