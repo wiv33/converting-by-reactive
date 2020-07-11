@@ -56,7 +56,7 @@ class TransformedTest {
     var strLinux = "";
     ArrayList<Map<String, Object>> params;
     try {
-      strLinux = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/domain/node/input-one-depth.json"));
+      strLinux = Files.readString(Path.of("input-one-depth.json"));
       params = new ObjectMapper().readValue(strLinux, new TypeReference<>() {
       });
     } catch (IOException e) {
