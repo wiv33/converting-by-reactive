@@ -1,7 +1,7 @@
 package org.psawesome.rsocketmongovue.api.http.handler;
 
 import lombok.RequiredArgsConstructor;
-import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
+import org.psawesome.rsocketmongovue.domain.user.entity.dto.res.PsUserResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -26,8 +26,9 @@ public class PsUserHandler {
             .firstHeader("X-USER-ID"));
 
     return ok().body(
-            Mono.just(""),
-            PsUser.class)
+            Mono.just(PsUserResponse.builder()
+                    .build()),
+            PsUserResponse.class)
             .log()
             ;
   }

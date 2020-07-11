@@ -36,7 +36,7 @@ public class ApiRouter {
   }
 
   @Bean
-  public RouterFunction<?> xmlRouter() {
+  public RouterFunction<?> transformedRouter() {
     return route().path("/api/v1/xml", b1 -> b1
             .nest(accept(MediaType.APPLICATION_JSON), b2 -> b2
                     .GET("/{id}", psUserHandler::userFindAll)

@@ -2,11 +2,7 @@ package org.psawesome.rsocketmongovue.domain.transform.request;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -19,15 +15,8 @@ import java.util.Map;
  * @see
  * @since 20. 7. 11. Saturday
  */
-@RequiredArgsConstructor
 @Getter
 @ToString @EqualsAndHashCode
 public class TransformedRequest {
-  private final List<Map<String, Object>> from;
-  // String으로 받을 수 있는지 명확하지가 않음
-  private final TRANSFORMED_TYPE to;
 
-  public enum TRANSFORMED_TYPE {
-    TEXT, JSON, XML
-  }
 }

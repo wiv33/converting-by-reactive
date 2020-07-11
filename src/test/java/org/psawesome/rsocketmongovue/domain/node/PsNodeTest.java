@@ -31,29 +31,20 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class PsNodeTest {
   // input
-  String strLinux, strWin;
+  String str;
   ObjectMapper mapper;
-  protected List<LinkedHashMap<String, Object>> linked, windowLinked;
-  Flux<LinkedHashMap<String, Object>> publisher, winpub;
+  protected List<LinkedHashMap<String, Object>> linked;
+  Flux<LinkedHashMap<String, Object>> publisher;
 
   @BeforeEach
   public void setUp() throws IOException {
-    strLinux = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/node/input-one-depth.json"));
-//    strWin = Files.readString(Path.of("C:\\private\\projects\\rsocket-mongo-vue\\src\\test\\java\\org\\psawesome\\rsocketmongovue\\utils\\factory\\node\\input-one-depth.json"));
+    str = Files.readString(Path.of("input-one-depth.json"));
     mapper = new ObjectMapper();
-    linked = mapper.readValue(strLinux, new TypeReference<>() {
+    linked = mapper.readValue(str, new TypeReference<>() {
     });
-//    windowLinked = mapper.readValue(strWin, new TypeReference<>() {
-//    });
 
     publisher = Flux.fromStream(getStream())
             .log();
-//    winpub = Flux.fromStream(windowLinked.stream()
-//            .peek(System.out::println)
-//    ).log();
-
-//    linked = windowLinked;
-//    publisher = winpub;
   }
 
   private Stream<LinkedHashMap<String, Object>> getStream() {
@@ -63,7 +54,7 @@ class PsNodeTest {
 //  @Test
   @Deprecated
   void testMultiDepthJson() throws IOException {
-    String str = Files.readString(Path.of("/home/ps/dev/java/IdeaProjects/rsocket-mongo-vue/src/test/java/org/psawesome/rsocketmongovue/utils/factory/node/model/input-multi-depth.json"));
+    String str = Files.readString(Path.of("input-multi-depth.json"));
     ObjectMapper mapper = new ObjectMapper();
     LinkedHashMap<String, Object> stringObjectMap = mapper.readValue(str, new TypeReference<>() {
     });

@@ -4,12 +4,13 @@ spring:
     server:
       port: 7000
       transport: tcp
-
   main:
+    allow-bean-definition-overriding: true
     lazy-initialization: false
   devtools:
     livereload:
       enabled: true
+
 
 logging:
   level:

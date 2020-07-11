@@ -18,7 +18,12 @@ import org.psawesome.rsocketmongovue.domain.transform.request.TransformedRequest
  * @since 20. 7. 11. Saturday
  */
 @RequiredArgsConstructor
-@Getter @ToString @EqualsAndHashCode
+@Getter
+@ToString
+@EqualsAndHashCode
 public class Transformed {
-  private final TransformedRequest request;
+
+  public Transformed(TransformedRequest request) {
+
+  }
 }
