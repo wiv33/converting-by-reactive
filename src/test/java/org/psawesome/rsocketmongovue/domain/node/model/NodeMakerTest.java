@@ -1,7 +1,9 @@
-package org.psawesome.rsocketmongovue.domain.node;
+package org.psawesome.rsocketmongovue.domain.node.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.psawesome.rsocketmongovue.domain.node.model.NodeMaker;
+import org.psawesome.rsocketmongovue.domain.node.model.PsNode;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 

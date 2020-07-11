@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.api.rsocket;
+package org.psawesome.rsocketmongovue.domain.user.rsocket;
 
 import lombok.RequiredArgsConstructor;
 import org.psawesome.rsocketmongovue.domain.user.entity.PsUser;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Controller
 @RequiredArgsConstructor
-public class RSocketController {
+public class PsUserController {
 
   private final ReactiveFluentMongoOperations operations;
 

@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.domain.node;
+package org.psawesome.rsocketmongovue.domain.node.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

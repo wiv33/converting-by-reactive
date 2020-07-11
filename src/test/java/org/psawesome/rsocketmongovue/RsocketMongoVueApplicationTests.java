@@ -17,10 +17,7 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = {
-                "application-test.yml"
-        })
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 //@EnableKafka
 @EnableReactiveMongoRepositories
 class RsocketMongoVueApplicationTests {

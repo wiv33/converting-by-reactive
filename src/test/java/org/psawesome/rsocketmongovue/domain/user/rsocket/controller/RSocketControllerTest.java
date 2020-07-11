@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.api.rsocket.controller;
+package org.psawesome.rsocketmongovue.domain.user.rsocket.controller;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -59,12 +59,13 @@ class RSocketControllerTest {
                     () -> assertEquals(17, consume.getAge()),
                     () -> assertEquals(build.getUuid(), consume.getUuid())
             ))
-            .verifyComplete()
+            .thenCancel()
+            .verify()
     ;
 
     StepVerifier.create(requester.route("user.all")
             .retrieveFlux(PsUser.class)
-    .log("user.all -->>> "))
+            .log("user.all -->>> "))
             .expectNextCount(1)
             .verifyComplete();
   }

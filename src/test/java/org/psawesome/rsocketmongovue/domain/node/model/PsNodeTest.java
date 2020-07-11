@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.domain.node;
+package org.psawesome.rsocketmongovue.domain.node.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

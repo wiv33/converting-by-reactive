@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.domain.node;
+package org.psawesome.rsocketmongovue.domain.node.model;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
