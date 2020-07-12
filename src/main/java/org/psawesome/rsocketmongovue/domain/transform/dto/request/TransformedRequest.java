@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.domain.transform.request;
+package org.psawesome.rsocketmongovue.domain.transform.dto.request;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

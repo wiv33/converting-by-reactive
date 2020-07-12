@@ -39,14 +39,15 @@ public class ApiRouter {
 
   @Bean
   public RouterFunction<?> transformedRouter() {
-    return route().path("/api/v1/xml", b1 -> b1
+    return route().path("/api/v1/transformed", b1 -> b1
             .nest(accept(MediaType.APPLICATION_JSON), b2 -> b2
-                    .GET("/{id}", psUserHandler::userFindAll)
-                    .GET("", psUserHandler::userFindAll)
+                    .GET("/type/{type}/", transformedHandler::create)
+                    .POST("", transformedHandler::create)
                     .before(request -> ServerRequest.from(request)
                             .header("X-USER-ID", "temp")
                             .build()))
-            .POST("/xml", psUserHandler::userFindAll))
+//            .POST("/xml", psUserHandler::userFindAll)
+    )
             .after(((request, response) -> (response)))
             .build();
   }

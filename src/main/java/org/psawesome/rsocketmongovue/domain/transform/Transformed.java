@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.psawesome.rsocketmongovue.domain.transform.request.TransformedRequest;
+import org.psawesome.rsocketmongovue.domain.transform.dto.request.TransformedRequest;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
