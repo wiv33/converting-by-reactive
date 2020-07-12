@@ -4,17 +4,15 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.psawesome.rsocketmongovue.domain.transform.dto.request.TransformedRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.web.reactive.function.server.RouterFunction;
 
 import java.time.Duration;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -29,9 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @SpringBootTest
 class TransformedHandlerTest {
-
-  @Autowired
-  RouterFunction<?> transformedRouter;
 
   WebTestClient client;
 
@@ -52,13 +47,14 @@ class TransformedHandlerTest {
 
   @BeforeEach
   void setUp() {
-    client = WebTestClient.bindToRouterFunction(transformedRouter)
-            .build();
+
   }
 
   @Test
   void testWebTestClientNotNull() {
-    assertNotNull(client);
+    requester.route("transformed.create")
+    .data(TransformedRequest.builder().build())
+    .retrieveMono();
   }
 
 

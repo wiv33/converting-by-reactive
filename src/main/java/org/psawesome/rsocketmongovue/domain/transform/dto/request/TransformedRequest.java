@@ -1,5 +1,6 @@
 package org.psawesome.rsocketmongovue.domain.transform.dto.request;
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -15,6 +16,7 @@ import lombok.ToString;
  * @see
  * @since 20. 7. 11. Saturday
  */
+@Builder
 @Getter
 @ToString @EqualsAndHashCode
 public class TransformedRequest {
