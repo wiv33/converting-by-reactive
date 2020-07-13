@@ -9,10 +9,7 @@ import io.rsocket.transport.netty.client.TcpClientTransport;
 import io.rsocket.transport.netty.server.CloseableChannel;
 import io.rsocket.transport.netty.server.TcpServerTransport;
 import io.rsocket.transport.netty.server.WebsocketServerTransport;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
@@ -42,24 +39,34 @@ import java.util.stream.Stream;
 @SpringBootTest
 class TransformedHandlerTest {
 
-  private static RSocketRequester requester;
-
+  private RSocketRequester requester;
+/*
   @BeforeAll
   static void beforeAll(@Autowired RSocketRequester.Builder builder, @Value("${spring.rsocket.server.port}") int port) {
     requester = builder.dataMimeType(MimeTypeUtils.APPLICATION_JSON)
             .connectTcp("localhost", port)
             .block(Duration.ofSeconds(3));
   }
+*/
+
+/*
+  @AfterAll
+  static void afterAll() {
+    requester.rsocket().dispose();
+  }
+*/
 
   @AfterEach
   void tearDown() {
-    requester.rsocket().dispose();
+
   }
 
 
   @BeforeEach
-  void setUp() {
-
+  void setUp(@Autowired RSocketRequester.Builder builder, @Value("${spring.rsocket.server.port}") int port) {
+    requester = builder.dataMimeType(MimeTypeUtils.APPLICATION_JSON)
+            .connectTcp("localhost", port)
+            .block(Duration.ofSeconds(3));
   }
 
   @Test
