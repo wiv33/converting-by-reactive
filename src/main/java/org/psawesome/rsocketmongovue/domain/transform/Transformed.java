@@ -1,10 +1,13 @@
 package org.psawesome.rsocketmongovue.domain.transform;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.psawesome.rsocketmongovue.domain.common.TRANS_TYPE;
 import org.psawesome.rsocketmongovue.domain.transform.dto.request.TransformedRequest;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -17,13 +20,25 @@ import org.psawesome.rsocketmongovue.domain.transform.dto.request.TransformedReq
  * @see
  * @since 20. 7. 11. Saturday
  */
-@RequiredArgsConstructor
 @Getter
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
+@Document("Transformed_request")
 public class Transformed {
 
-  public Transformed(TransformedRequest request) {
+  @Id
+  private UUID uuid;
 
+  private Map<String, Object> data;
+
+  private TRANS_TYPE matchType;
+
+  private TRANS_TYPE responseType;
+
+  public Transformed(TransformedRequest request) {
+    this.data = request.getData();
+    this.matchType = request.getMatchType();
+    this.responseType = request.getResponseType();
   }
 }

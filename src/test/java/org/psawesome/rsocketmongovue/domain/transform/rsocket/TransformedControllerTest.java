@@ -59,6 +59,10 @@ class TransformedControllerTest {
             .verifyComplete();
   }
 
+  @Test
+  void test() {
+  }
+
   // parameterized test
 
   @ParameterizedTest

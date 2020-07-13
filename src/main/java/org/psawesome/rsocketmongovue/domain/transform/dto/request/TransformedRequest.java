@@ -4,6 +4,10 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.psawesome.rsocketmongovue.domain.common.TRANS_TYPE;
+
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author ps [https://github.com/wiv33/rsocket-mongo-vue]
@@ -18,7 +22,10 @@ import lombok.ToString;
  */
 @Builder
 @Getter
-@ToString @EqualsAndHashCode
+@ToString
+@EqualsAndHashCode
 public class TransformedRequest {
-
+  private Map<String, Object> data;
+  private TRANS_TYPE matchType;
+  private TRANS_TYPE responseType;
 }
