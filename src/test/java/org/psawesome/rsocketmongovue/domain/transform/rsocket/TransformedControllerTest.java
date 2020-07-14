@@ -74,9 +74,11 @@ class TransformedControllerTest {
             .responseType(TRANS_TYPE.XML)
             .build();
 
-    requester.route("transformed.request")
+    StepVerifier.create(requester.route("transformed.request")
             .data(data)
-            .send();
+            .retrieveMono(TransformedRequest.class).log())
+            .expectNextCount(1)
+            .verifyComplete();
 
     StepVerifier.create(requester.route(String.format("transformed.findOne.%s", data.getUuid()))
             .retrieveMono(TransformedRequest.class)
