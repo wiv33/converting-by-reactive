@@ -68,19 +68,19 @@ class TransformedControllerTest {
   @Test
   @DisplayName("rsocket에서 request를 받을 수 있는지 테스트")
   void testTransformedRequester() {
-    TransformedRequest data = TransformedRequest.builder()
-            .data(transformForTransformed())
-            .matchType(TRANS_TYPE.JSON)
-            .responseType(TRANS_TYPE.XML)
-            .build();
+    Mono<TransformedRequest> transformedRequestMono = requester.route("transformed.request")
+            .data(TransformedRequest.builder()
+                    .data(transformForTransformed())
+                    .matchType(TRANS_TYPE.JSON)
+                    .responseType(TRANS_TYPE.XML)
+                    .build())
+            .retrieveMono(TransformedRequest.class);
 
-    StepVerifier.create(requester.route("transformed.request")
-            .data(data)
-            .retrieveMono(TransformedRequest.class).log())
+    StepVerifier.create(transformedRequestMono.log())
             .expectNextCount(1)
             .verifyComplete();
 
-    StepVerifier.create(requester.route(String.format("transformed.findOne.%s", data.getUuid()))
+    StepVerifier.create(requester.route(String.format("transformed.findOne.%s", transformedRequestMono.block(Duration.ofSeconds(1)).getId()))
             .retrieveMono(TransformedRequest.class)
             .log())
             .expectNextCount(1)
