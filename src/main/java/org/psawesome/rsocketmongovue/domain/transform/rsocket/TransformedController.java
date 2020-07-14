@@ -45,9 +45,12 @@ public class TransformedController {
   @MessageMapping("transformed.findOne.{id}")
   public Mono<TransformedRequest> transformedRequestMono(@DestinationVariable String id) {
     log.info("request id is : {}", id);
+    fluentMongoOperations.mapReduce(TransformedRequest.class)
+            .map(id);
     return fluentMongoOperations.query(TransformedRequest.class)
             .matching(Query.query(where("id").is(id)))
             .one();
   }
+
 
 }
