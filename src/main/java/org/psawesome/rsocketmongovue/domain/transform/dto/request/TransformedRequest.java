@@ -5,7 +5,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.psawesome.rsocketmongovue.domain.common.TRANS_TYPE;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -20,12 +23,16 @@ import java.util.UUID;
  * @see
  * @since 20. 7. 11. Saturday
  */
-@Builder
+@Builder()
 @Getter
 @ToString
 @EqualsAndHashCode
+@Document("transformed_request")
 public class TransformedRequest {
-  private Map<String, Object> data;
-  private TRANS_TYPE matchType;
-  private TRANS_TYPE responseType;
+
+  @Id
+  private final UUID uuid = UUID.randomUUID();
+  private final List<Map<String, Object>> data;
+  private final TRANS_TYPE matchType;
+  private final TRANS_TYPE responseType;
 }

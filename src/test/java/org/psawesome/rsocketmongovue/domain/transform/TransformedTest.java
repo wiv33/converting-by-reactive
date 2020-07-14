@@ -22,7 +22,7 @@ import java.util.Map;
  * @see
  * @since 20. 7. 11. Saturday
  */
-class TransformedTest {
+public class TransformedTest {
 
   @Test
   void testArgsForTransformed() {
@@ -30,7 +30,7 @@ class TransformedTest {
   }
 
 
-  private List<Map<String, Object>> transformForTransformed() {
+  public static List<Map<String, Object>> transformForTransformed() {
     var strLinux = "";
     ArrayList<Map<String, Object>> params;
     try {

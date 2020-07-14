@@ -1,11 +1,15 @@
 package org.psawesome.rsocketmongovue.domain.transform;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.psawesome.rsocketmongovue.domain.common.TRANS_TYPE;
 import org.psawesome.rsocketmongovue.domain.transform.dto.request.TransformedRequest;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -30,7 +34,7 @@ public class Transformed {
   @Id
   private UUID uuid;
 
-  private Map<String, Object> data;
+  private List<Map<String, Object>> data;
 
   private TRANS_TYPE matchType;
 

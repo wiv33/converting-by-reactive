@@ -12,6 +12,6 @@ package org.psawesome.rsocketmongovue.domain.common;
  * @since 20. 7. 11. Saturday
  */
 public enum TRANS_TYPE {
-  TEXT(), JSON(), XML(),
+  TEXT, JSON, XML,
 
 }
