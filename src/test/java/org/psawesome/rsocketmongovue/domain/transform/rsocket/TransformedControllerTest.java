@@ -29,6 +29,7 @@ import reactor.test.StepVerifier;
 
 import java.time.Duration;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -62,7 +63,8 @@ class TransformedControllerTest {
     assertNotNull(requester);
     StepVerifier.create(requester.route("transformed.help")
             .retrieveFlux(String.class)
-            .log())
+            .log()
+    )
             .expectNextCount(3)
             .verifyComplete();
   }
@@ -93,8 +95,6 @@ class TransformedControllerTest {
             .verify()
     ;
   }
-
-
 
 
   // parameterized test
