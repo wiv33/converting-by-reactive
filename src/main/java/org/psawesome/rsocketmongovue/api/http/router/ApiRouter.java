@@ -7,6 +7,7 @@ import org.psawesome.rsocketmongovue.api.http.handler.TransformedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
 
@@ -38,14 +39,22 @@ public class ApiRouter {
   }
 
   @Bean
+  @CrossOrigin(origins = {"http://psawesome.org"}, maxAge = -1)
   public RouterFunction<?> transformedRouter() {
     return route().path("/api/v1/transformed", b1 -> b1
-            .nest(accept(MediaType.APPLICATION_JSON), b2 -> b2
-                    .GET("/type/{type}/", transformedHandler::create)
-                    .POST("", transformedHandler::create)
-                    .before(request -> ServerRequest.from(request)
-                            .header("X-USER-ID", "temp")
-                            .build()))
+                    .nest(accept(MediaType.APPLICATION_JSON), b2 -> b2
+                            .GET("/type/{type}/", transformedHandler::create)
+                            .POST("", transformedHandler::create)
+                            .before(request -> ServerRequest.from(request)
+                                    .header("X-USER-ID", "temp")
+                                    .build())
+                    )
+                    .nest(accept(MediaType.TEXT_EVENT_STREAM), b2 -> b2
+                            .GET("qqq", transformedHandler::testQQQ)
+                            .GET("www", transformedHandler::testWWW)
+                            .GET("eee", transformedHandler::testEEE)
+                    )
+
 //            .POST("/xml", psUserHandler::userFindAll)
     )
             .after(((request, response) -> (response)))

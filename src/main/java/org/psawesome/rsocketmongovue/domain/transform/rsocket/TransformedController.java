@@ -1,6 +1,5 @@
 package org.psawesome.rsocketmongovue.domain.transform.rsocket;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.psawesome.rsocketmongovue.domain.common.EntityToDto;
@@ -42,11 +41,11 @@ public class TransformedController {
 
   @MessageMapping("transformed.request")
   public Mono<TransformedResponse> transformedRequest(@Payload final TransformedRequest request) {
+
     return fluentMongoOperations.insert(TransformedRequest.class)
             .one(request)
             .flatMap(req -> entityToDto.transfer(req, TransformedResponse.class))
-            .log()
-            .cast(TransformedResponse.class)
+
             .log("result transformedRequest ----> ");
   }
 

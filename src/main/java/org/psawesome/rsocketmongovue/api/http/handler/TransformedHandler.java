@@ -40,4 +40,16 @@ public class TransformedHandler {
             TransformedRequest.class)
             .switchIfEmpty(notFound().build());
   }
+
+  public Mono<ServerResponse> testWWW(ServerRequest request) {
+    return null;
+  }
+
+  public Mono<ServerResponse> testQQQ(ServerRequest request) {
+    return null;
+  }
+
+  public Mono<ServerResponse> testEEE(ServerRequest request) {
+    return null;
+  }
 }
