@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.psawesome.rsocketmongovue.domain.common.EntityToDto;
+import org.psawesome.rsocketmongovue.domain.node.model.NodeMaker;
 import org.psawesome.rsocketmongovue.domain.transform.dto.request.TransformedRequest;
 import org.psawesome.rsocketmongovue.domain.transform.dto.response.TransformedResponse;
 import org.springframework.data.mongodb.core.ReactiveFluentMongoOperations;
@@ -47,6 +48,7 @@ public class TransformedController {
             .flatMap(req -> entityToDto.transfer(req, TransformedResponse.class))
             .log()
             .cast(TransformedResponse.class)
+            .cache()
             .log("result transformedRequest ----> ");
   }
 
