@@ -18,6 +18,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.psawesome.rsocketmongovue.domain.common.TRANS_TYPE;
 import org.psawesome.rsocketmongovue.domain.transform.dto.request.TransformedRequest;
+import org.psawesome.rsocketmongovue.domain.transform.dto.response.TransformedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,7 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.psawesome.rsocketmongovue.domain.transform.TransformedTest.transformForTransformed;
 
@@ -66,29 +68,33 @@ class TransformedControllerTest {
   }
 
   @Test
-  @DisplayName("rsocket에서 request를 받을 수 있는지 테스트")
+  @DisplayName("rsocket에서 request를 mongo에 저장했는지 테스트")
   void testTransformedRequester() {
-    Mono<TransformedRequest> transformedRequestMono = requester.route("transformed.request")
+    Mono<TransformedResponse> transformedResponse = requester.route("transformed.request")
             .data(TransformedRequest.builder()
                     .data(transformForTransformed())
                     .matchType(TRANS_TYPE.JSON)
                     .responseType(TRANS_TYPE.XML)
                     .build())
-            .retrieveMono(TransformedRequest.class);
+            .retrieveMono(TransformedResponse.class);
 
-    StepVerifier.create(transformedRequestMono.log())
-            .expectNextCount(1)
+    StepVerifier.create(transformedResponse)
+            .consumeNextWith(cons -> assertAll(
+                    () -> assertNotNull(cons.getId()),
+                    () -> assertNotNull(cons.getData())
+            ))
             .verifyComplete();
 
-    StepVerifier.create(requester.route(String.format("transformed.findOne.%s", transformedRequestMono.block(Duration.ofSeconds(1)).getId()))
+    StepVerifier.create(requester.route(String.format("transformed.findOne.%s", transformedResponse.block(Duration.ofSeconds(1)).getId()))
             .retrieveMono(TransformedRequest.class)
             .log())
             .expectNextCount(1)
             .expectComplete()
             .verify()
     ;
-
   }
+
+
 
 
   // parameterized test
