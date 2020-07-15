@@ -77,7 +77,7 @@ public class EntityToDto {
       Field dtoField = getField(res, field);
       dtoField.set(res, entityField.get(entity));
     } catch (IllegalAccessException | NoSuchFieldException e) {
-      throw new RuntimeException(e);
+      return res;
     }
     return res;
   }

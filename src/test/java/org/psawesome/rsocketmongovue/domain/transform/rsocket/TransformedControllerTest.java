@@ -32,8 +32,7 @@ import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.psawesome.rsocketmongovue.domain.transform.TransformedTest.transformForTransformed;
 
 @SpringBootTest
@@ -84,6 +83,7 @@ class TransformedControllerTest {
             .consumeNextWith(cons -> assertAll(
                     () -> assertNotNull(cons.getId()),
                     () -> assertNotNull(cons.getData())
+//                    () -> assertNull(cons.getNodeMaker())
             ))
             .verifyComplete();
 
