@@ -24,8 +24,8 @@
         let es = new EventSource(`http://psawesome.org:8080/api/v1/transformed/${url}`);
         this.name = `${"url is " + url}`;
         es.addEventListener("message", (msg) => {
-          console.log(msg);
-          this.name = (msg);
+          console.log(msg.data);
+          this.name = (msg.data);
         })
         es.onerror = (err) =>  {
           console.log(err);
