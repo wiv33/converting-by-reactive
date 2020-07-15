@@ -3,7 +3,6 @@ package org.psawesome.rsocketmongovue.domain.transform.rsocket;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.psawesome.rsocketmongovue.domain.common.EntityToDto;
-import org.psawesome.rsocketmongovue.domain.node.model.NodeMaker;
 import org.psawesome.rsocketmongovue.domain.transform.dto.request.TransformedRequest;
 import org.psawesome.rsocketmongovue.domain.transform.dto.response.TransformedResponse;
 import org.springframework.data.mongodb.core.ReactiveFluentMongoOperations;
@@ -42,11 +41,10 @@ public class TransformedController {
 
   @MessageMapping("transformed.request")
   public Mono<TransformedResponse> transformedRequest(@Payload final TransformedRequest request) {
-
     return fluentMongoOperations.insert(TransformedRequest.class)
             .one(request)
+            .cache()
             .flatMap(req -> entityToDto.transfer(req, TransformedResponse.class))
-
             .log("result transformedRequest ----> ");
   }
 
