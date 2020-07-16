@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-btn-toggle>
-      <v-btn color="black" :click="openSse('qqq')">1</v-btn>
-      <v-btn color="purple" :click="openSse('www')">2</v-btn>
-      <v-btn color="pink" :click="openSse('eee')">3</v-btn>
+      <v-btn color="black" @click="openSse('qqq')">1</v-btn>
+      <v-btn color="purple" @click="openSse('www')">2</v-btn>
+      <v-btn color="pink" @click="openSse('eee')">3</v-btn>
     </v-btn-toggle>
     <v-banner v-text="name">
     </v-banner>
