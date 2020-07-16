@@ -41,9 +41,12 @@ public class TransformedController {
 
   @MessageMapping("transformed.request")
   public Mono<TransformedResponse> transformedRequest(@Payload final TransformedRequest request) {
+
     return fluentMongoOperations.insert(TransformedRequest.class)
             .one(request)
-            .cache()
+            // 강박관념 깨기 - 우린 원래 하나였어.
+            // 1. 저장하고
+            // 2. mapping에게 자신을 전달까지만.
             .flatMap(req -> entityToDto.transfer(req, TransformedResponse.class))
             .log("result transformedRequest ----> ");
   }

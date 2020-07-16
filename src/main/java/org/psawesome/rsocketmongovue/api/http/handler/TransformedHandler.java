@@ -48,25 +48,26 @@ public class TransformedHandler {
   }
 
   public Mono<ServerResponse> testWWW(ServerRequest request) {
-    return getMethod("WWW");
+    return getMethod("WWW", 700L);
   }
 
   public Mono<ServerResponse> testQQQ(ServerRequest request) {
-    return getMethod("QQQ");
+    return getMethod("QQQ", 1700L);
   }
 
   public Mono<ServerResponse> testEEE(ServerRequest request) {
-    return getMethod("EEE");
+    return getMethod("EEE", 333L);
   }
 
 
-  private Mono<ServerResponse> getMethod(String www) {
+
+  private Mono<ServerResponse> getMethod(String www, Long time) {
     return ok().contentType(MediaType.TEXT_EVENT_STREAM)
-            .body(getCurrentMethod(www), String.class);
+            .body(getCurrentMethod(www, time), String.class);
   }
 
-  private Flux<String> getCurrentMethod(String name) {
-    return Flux.interval(Duration.ofMillis(1700L))
+  private Flux<String> getCurrentMethod(String name, Long time) {
+    return Flux.interval(Duration.ofMillis(time))
             .zipWith(Flux.generate((sink) -> sink.next(String.format("method name is %s, number - %d", name, ThreadLocalRandom.current().nextInt()))))
             .log("tuple is --> ")
             .map(Tuple2::toString);
