@@ -1,10 +1,6 @@
-PS Demo expected: operation, 간단한 몽고 query(DSL?), processor 노드 
+요청 문서 변환 작업을 수행하는 프로그램 구축 By Reactor 
 ===
 
-# 미완성
-? rsocket을 kafka로 변경이 수월할까
-
-# ReactiveMongo, RSocket Server, Client with vue.js
 ## exclude : 
 
 - multi-module
@@ -17,27 +13,8 @@ PS Demo expected: operation, 간단한 몽고 query(DSL?), processor 노드
  `state`
     - start
  
-* ~~[ ] Client~~  
- `close`
- 
 * [ ] front-end    
  `state`
 
 
 ## Go to StepVerifier
-
-### Entity
-
-- [package location](https://github.com/wiv33/rsocket-mongo-vue/tree/master/src/main/java/org/psawesome/rsocketmongovue/domain/user/entity)
-    -
-    
-- [test code file](https://github.com/wiv33/rsocket-mongo-vue/blob/master/src/test/java/org/psawesome/rsocketmongovue/domain/user/entity/dto/PsUserDtoTest.java)
-    -
-
-### EntityToDto
-
-- [class file](https://github.com/wiv33/rsocket-mongo-vue/blob/master/src/main/java/org/psawesome/rsocketmongovue/domain/common/EntityToDto.java)
-    - 
-    
-- [test code file](https://github.com/wiv33/rsocket-mongo-vue/blob/master/src/test/java/org/psawesome/rsocketmongovue/domain/common/EntityToDtoTest.java)
-    -

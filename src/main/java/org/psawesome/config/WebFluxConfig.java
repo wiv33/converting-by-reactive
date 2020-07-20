@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue.config;
+package org.psawesome.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.config.CorsRegistry;
@@ -21,7 +21,7 @@ public class WebFluxConfig implements WebFluxConfigurer {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-            .allowedOrigins("http://psawesome.org", "http://localhost:8080","http://localhost:8081", "http://localhost:8082")
+//            .allowedOrigins("http://psawesome.org", "http://localhost:8080","http://localhost:8081", "http://localhost:8082")
             .allowedMethods("*")
             .maxAge(3700);
   }

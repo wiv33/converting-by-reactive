@@ -1,4 +1,4 @@
-package org.psawesome.rsocketmongovue;
+package org.psawesome;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 //@EnableKafka
 @EnableReactiveMongoRepositories
-class RsocketMongoVueApplicationTests {
+class ConvertingByReactiveApplicationTests {
 
   private static RSocketRequester requester;
 

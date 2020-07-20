@@ -1,13 +1,13 @@
-package org.psawesome.rsocketmongovue;
+package org.psawesome;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RsocketMongoVueApplication {
+public class ConvertingByReactiveApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(RsocketMongoVueApplication.class, args);
+    SpringApplication.run(ConvertingByReactiveApplication.class, args);
   }
 
 
