@@ -1,22 +1,39 @@
 package org.psawesome;
 
-import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.psawesome.kafka.KafkaManager;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.kafka.receiver.ReceiverOffset;
+import reactor.kafka.receiver.ReceiverRecord;
 
-import java.util.Properties;
+import java.io.Serializable;
+import java.util.Map;
+
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class ConvertingByReactiveApplicationTests {
 
   @Test
   void testKafkaConnection() {
-    final EmbeddedKafkaBroker test = new EmbeddedKafkaBroker(1, false, 1, "test");
-    test.afterPropertiesSet();
+    ReceiverOffset offset = mock(ReceiverOffset.class);
+    doNothing().when(offset).acknowledge();
 
+    final ReceiverRecord<String, String> record = Mockito.mock(ReceiverRecord.class);
+    when(record.key()).thenReturn(null);
+    when(record.value()).thenReturn("psawesome");
+
+    final KafkaManager manager = Mockito.mock(KafkaManager.class);
+    Mockito.when(manager.producer(Mockito.any())).thenReturn(Flux.empty());
+    Mockito.when(manager.consumer("ps-topic0")).thenReturn(Flux.just(record));
   }
 /*private static RSocketRequester requester;
 
