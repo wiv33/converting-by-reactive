@@ -1,9 +1,13 @@
 package org.psawesome;
 
+import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
+
+import java.util.Properties;
 
 @SpringBootTest
 class ConvertingByReactiveApplicationTests {
