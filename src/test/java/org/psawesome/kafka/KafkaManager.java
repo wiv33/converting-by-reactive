@@ -35,8 +35,8 @@ public class KafkaManager {
   final Map<String, Object> consumerProperties;
   final Map<String, Object> producerProperties;
 
-  public KafkaManager() {
-    final EmbeddedKafkaBroker broker = new EmbeddedKafkaBroker(1, false, 1, "broker");
+  public KafkaManager(String topic) {
+    final EmbeddedKafkaBroker broker = new EmbeddedKafkaBroker(1, false, 1, topic);
     broker.afterPropertiesSet();
 
     final String bootstrapServers = broker.getBrokersAsString();
