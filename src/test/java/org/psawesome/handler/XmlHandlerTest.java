@@ -1,20 +1,21 @@
 package org.psawesome.handler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.psawesome.dto.request.XmlRequest;
 import org.psawesome.router.XmlRouter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebFlux;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.Disposable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,9 +36,9 @@ import java.util.Map;
  */
 //@ExtendWith(SpringExtension.class)
 @WebFluxTest
-@AutoConfigurationPackage(basePackageClasses = {XmlRouter.class, XmlHandler.class})
-@AutoConfigureWebTestClient
-@AutoConfigureWebFlux
+@ImportAutoConfiguration(classes = {XmlHandler.class, XmlRouter.class})
+//@AutoConfigureWebTestClient
+//@AutoConfigureWebFlux
 public class XmlHandlerTest {
 
   private WebTestClient testClient;
@@ -49,6 +50,7 @@ public class XmlHandlerTest {
   XmlHandler handler;
 
   List<Map<String, Object>> body;
+  Mono<List<Map<String, Object>>> source;
 
   @BeforeEach
   void setUp() throws IOException {
@@ -58,6 +60,16 @@ public class XmlHandlerTest {
     body = mapper.readValue(Files.readString(Paths.get("input-one-depth.json")),
             new TypeReference<>() {
             });
+    source = Flux.fromStream(Files.lines(Paths.get("input-one-depth.json")))
+            .reduce(new StringBuilder(), StringBuilder::append)
+            .map(s -> {
+              try {
+                return mapper.readValue(s.toString(), new TypeReference<>() {
+                });
+              } catch (JsonProcessingException e) {
+                throw new RuntimeException();
+              }
+            });
   }
 
   @Test
@@ -66,8 +78,16 @@ public class XmlHandlerTest {
             .id("psawesome")
             .body(body)
             .build();
-
+    final Disposable subscribe = source
+            .map(maps -> XmlRequest
+                    .builder()
+                    .body(maps)
+                    .build())
+            .publishOn(Schedulers.single())
+            .log()
+            .subscribe();
     Assertions.assertNotNull(psawesome.getBody());
-
+    subscribe.dispose();
+    Assertions.assertTrue(subscribe.isDisposed());
   }
 }
