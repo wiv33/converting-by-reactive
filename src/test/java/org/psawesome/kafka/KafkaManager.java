@@ -61,7 +61,7 @@ public class KafkaManager {
   }
 
   public Flux<SenderResult<String>> producer(final Publisher<? extends SenderRecord<String, String, String>> publisher) {
-    return KafkaSender.create(SenderOptions.<String, String>create(consumerProperties))
+    return KafkaSender.create(SenderOptions.<String, String>create(producerProperties))
             .send(publisher);
   }
 

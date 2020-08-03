@@ -1,25 +1,30 @@
 package org.psawesome.handler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.psawesome.dto.request.XmlRequest;
+import org.psawesome.kafka.KafkaManager;
 import org.psawesome.router.XmlRouter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
+import reactor.kafka.receiver.ReceiverRecord;
+import reactor.kafka.sender.SenderRecord;
+import reactor.kafka.sender.SenderResult;
+import reactor.test.StepVerifier;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +55,13 @@ public class XmlHandlerTest {
   XmlHandler handler;
 
   List<Map<String, Object>> body;
-  Mono<List<Map<String, Object>>> source;
+
+  final KafkaManager manager = new KafkaManager(getTopic());
+  Flux<ReceiverRecord<String, String>> consumer;
+
+  private String getTopic() {
+    return "xml-request";
+  }
 
   @BeforeEach
   void setUp() throws IOException {
@@ -59,17 +70,10 @@ public class XmlHandlerTest {
     final ObjectMapper mapper = new ObjectMapper();
     body = mapper.readValue(Files.readString(Paths.get("input-one-depth.json")),
             new TypeReference<>() {
-            });
-    source = Flux.fromStream(Files.lines(Paths.get("input-one-depth.json")))
-            .reduce(new StringBuilder(), StringBuilder::append)
-            .map(s -> {
-              try {
-                return mapper.readValue(s.toString(), new TypeReference<>() {
-                });
-              } catch (JsonProcessingException e) {
-                throw new RuntimeException();
-              }
-            });
+            }
+    );
+
+    consumer = manager.consumer(getTopic());
   }
 
   @Test
@@ -78,16 +82,52 @@ public class XmlHandlerTest {
             .id("psawesome")
             .body(body)
             .build();
-    final Disposable subscribe = source
-            .map(maps -> XmlRequest
-                    .builder()
-                    .body(maps)
-                    .build())
-            .publishOn(Schedulers.single())
-            .log()
-            .subscribe();
     Assertions.assertNotNull(psawesome.getBody());
-    subscribe.dispose();
-    Assertions.assertTrue(subscribe.isDisposed());
+  }
+
+  @Test
+  void testConsumer() throws InterruptedException {
+    Flux.defer(() -> {
+      try {
+        return sendMessageInterval();
+      } catch (IOException e) {
+        throw new RuntimeException();
+      }
+    }).delayElements(Duration.ofSeconds(1))
+            .subscribe(s -> System.out.println(s.recordMetadata().toString()),
+                    throwable -> System.out.println(throwable.getMessage()),
+                    () -> System.out.println("onComplete"));
+
+    System.out.println("XmlHandlerTest.testConsumer");
+    consumer.log("what..?")
+            .subscribe(s -> System.out.println(s.value()),
+                    throwable -> System.out.println(throwable.getMessage()),
+                    () -> System.out.println("my - onComplete")
+            );
+
+    StepVerifier.create(consumer.log("my-body-is"))
+            .expectSubscription()
+            .consumeNextWith(consume ->
+                    Assertions.assertNotNull(consume.toString())
+            )
+    ;
+
+    Thread.sleep(10_000);
+  }
+
+  private Flux<SenderResult<String>> sendMessageInterval() throws IOException {
+    return Flux.fromStream(Files.lines(Paths.get("input-one-depth.json")))
+            .publishOn(Schedulers.single())
+            .reduce(new StringBuilder(), StringBuilder::append)
+            .log("result string-builder")
+            .flatMapMany(str -> manager.producer(
+                    Mono.just(
+//                            SenderRecord.create(new ProducerRecord<>(getTopic(), str.toString()), "")
+                            SenderRecord.create(getTopic(), 0, Instant.now().toEpochMilli(), null, str.toString(), "")
+                    )
+            ))
+            .metrics()
+            .log("sent producer")
+            ;
   }
 }
