@@ -86,21 +86,18 @@ public class XmlHandlerTest {
   }
 
   @Test
-  void testConsumer() throws InterruptedException {
-    Flux.defer(() -> {
-      try {
-        return sendMessageInterval();
-      } catch (IOException e) {
-        throw new RuntimeException();
-      }
-    }).delayElements(Duration.ofSeconds(1))
-            .subscribe(s -> System.out.println(s.recordMetadata().toString()),
+  void testConsumer() throws InterruptedException, IOException {
+    final Flux<Long> interval = Flux.interval(Duration.ofMillis(700));
+    Flux.zip(interval, sendMessageInterval().delayElements(Duration.ofMillis(333)).repeat(7))
+            .log("interval !!! ")
+            .subscribe(s -> System.out.println(s.getT2().recordMetadata().toString()),
                     throwable -> System.out.println(throwable.getMessage()),
                     () -> System.out.println("onComplete"));
 
     System.out.println("XmlHandlerTest.testConsumer");
-    consumer.log("what..?")
-            .subscribe(s -> System.out.println(s.value()),
+    consumer.elapsed()
+            .log()
+            .subscribe(s -> System.out.println(s.getT2().value()),
                     throwable -> System.out.println(throwable.getMessage()),
                     () -> System.out.println("my - onComplete")
             );
