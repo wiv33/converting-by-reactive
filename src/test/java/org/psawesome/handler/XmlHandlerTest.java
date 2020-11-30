@@ -65,7 +65,7 @@ public class XmlHandlerTest {
 
   @BeforeEach
   void setUp() throws IOException {
-    testClient = WebTestClient.bindToRouterFunction(xmlRouter.xmlRouter())
+    testClient = WebTestClient.bindToRouterFunction(xmlRouter.xmlRouterMethod())
             .build();
     final ObjectMapper mapper = new ObjectMapper();
     body = mapper.readValue(Files.readString(Paths.get("input-one-depth.json")),

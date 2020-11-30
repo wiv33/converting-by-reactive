@@ -24,14 +24,14 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
  */
 @Component
 public class XmlRouter {
-  private XmlHandler handler;
+  private final XmlHandler handler;
 
   public XmlRouter(XmlHandler handler) {
     this.handler = handler;
   }
 
   @Bean
-  public RouterFunction<ServerResponse> xmlRouter() {
+  public RouterFunction<ServerResponse> xmlRouterMethod() {
     return route(GET("/"), request -> ServerResponse.ok().build());
   }
 }

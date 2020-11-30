@@ -2,8 +2,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 plugins {
-    id 'org.springframework.boot' version '2.3.1.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'org.springframework.boot' version '2.3.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
     id 'com.palantir.docker' version '0.22.1'
 //    id "com.palantir.docker-run" version "0.22.1"
@@ -12,8 +12,8 @@ plugins {
 
 group = 'org.psawesome'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '13'
-targetCompatibility = '13'
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
 ext {
     set('springCloudVersion', "Hoxton.SR5")
@@ -56,6 +56,9 @@ dependencies {
 //    testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 //    implementation 'org.springframework.boot:spring-boot-starter-rsocket'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.data:spring-data-r2dbc'
+    implementation 'io.r2dbc:r2dbc-mssql'
+    implementation 'io.r2dbc:r2dbc-spi'
 //    implementation 'org.apache.kafka:kafka-streams'
 //    implementation 'org.springframework.cloud:spring-cloud-stream'
 //    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka-streams'
@@ -71,6 +74,12 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
 //    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+    // tag::xstream[]
+    // https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream
+
+    compile group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.14'
+    // end::xstream[]
 }
 
 dependencyManagement {
