@@ -11,6 +11,6 @@ public class PsConverterTest {
   @Test
   void testInit() {
     XStream x = new XStream();
-
+    final PsConverter psConverter = new PsConverter();
   }
 }
