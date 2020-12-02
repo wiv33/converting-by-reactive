@@ -4,6 +4,7 @@ import io.r2dbc.spi.Connection;
 import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.Result;
 import io.r2dbc.spi.Statement;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +22,7 @@ import org.springframework.data.r2dbc.core.DefaultReactiveDataAccessStrategy;
 import org.springframework.data.r2dbc.dialect.SqlServerDialect;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 import reactor.util.annotation.Nullable;
@@ -68,7 +70,11 @@ class PsTemplateRepoTest {
             .dataAccessStrategy(new DefaultReactiveDataAccessStrategy(SqlServerDialect.INSTANCE));
   }
 
-/*
+  @AfterEach
+  void tearDown() {
+    clientBuilder = null;
+  }
+  /*
   @Test
   void testInit() {
     System.out.println("PsTemplateRepoTest.testInit");
@@ -89,30 +95,24 @@ class PsTemplateRepoTest {
 
   @Test
   void testFineOne() {
-    databaseClient.select()
-            .from(PsTemplate.class)
-            .fetch()
-            .first()
+    Hooks.onOperatorDebug();
+    Hooks.onErrorDropped(throwable -> System.out.println(throwable.getMessage()));
+
+    final DatabaseClient client = clientBuilder.build();
+    final Statement statement = mockStatementFor("SELECT * FROM TTB_CMSC_TEMPLATE WHERE TEMPLATE_SEQ = $1");
+
+    client.execute(() -> "SELECT * FROM TTB_CMSC_TEMPLATE WHERE TEMPLATE_SEQ = $1")
+            .bind(0, 2)
+            .then()
             .log()
             .as(StepVerifier::create)
-            .expectNextCount(1)
             .verifyComplete();
-  }
 
-/*
-  @Test
-  void testFineOneByRepo() {
-    StepVerifier.create(repo.findOne(2).log())
-            .assertNext(res -> assertAll(
-                    () -> assertEquals(2, res.getTemplateSeq()),
-                    () -> assertEquals(2, res.getTemplateSeq()),
-                    () -> assertEquals(2, res.getTemplateSeq()),
-                    () -> assertEquals(2, res.getTemplateSeq()),
-                    () -> assertEquals(2, res.getTemplateSeq())
-            ))
-            .verifyComplete();
+    verify(statement).bind(0, 2);
+    verify(statement).execute();
+
+    verifyNoMoreInteractions(statement);
   }
-*/
 
   @Test
   void testItemShapeBySelect() {
@@ -150,7 +150,8 @@ class PsTemplateRepoTest {
 
   @Test
   void executeShouldBindNameValuesFromIndexes() {
-
+    Hooks.onOperatorDebug();
+    Hooks.onErrorDropped(throwable -> System.out.println(throwable.getMessage()));
 //    TODO issue gh-178, executeShouldBindNamedValuesFromIndexes,
 //    https://github.com/spring-projects/spring-data-r2dbc/blob/master/src/test/java/org/springframework/data/r2dbc/core/DefaultDatabaseClientUnitTests.java
 //    186L
@@ -203,7 +204,7 @@ class PsTemplateRepoTest {
   private Statement mockStatementFor(@Nullable String sql, @Nullable Result result) {
 
     Statement statement = mock(Statement.class);
-//    when(connection.createStatement(sql == null ? anyString() : eq(sql))).thenReturn(statement);
+//    when(connection.createStatement(anyString())).thenReturn(statement);
     when(connection.createStatement(sql == null ? anyString() : eq(sql))).thenReturn(statement);
     when(statement.returnGeneratedValues(anyString())).thenReturn(statement);
     when(statement.returnGeneratedValues()).thenReturn(statement);
