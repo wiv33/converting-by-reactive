@@ -6,6 +6,7 @@ build/
 !**/src/test/**
 db.properties
 front/node_modules/**
+data/**
 
 ### STS ###
 .apt_generated

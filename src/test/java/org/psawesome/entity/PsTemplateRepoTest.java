@@ -35,63 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@ExtendWith({
-        SpringExtension.class,
-        MockitoExtension.class
-})
-@MockitoSettings(strictness = Strictness.LENIENT)
-class PsTemplateRepoTest {
-
-//  @Mock
-//  PsTemplateRepo repo;
-
-  @Mock
-  DatabaseClient databaseClient;
-
-  @Autowired
-  ApplicationContext context;
-
-  @Mock
-  Connection connection;
-
-
-  private DatabaseClient.Builder clientBuilder;
-
-  @BeforeEach
-  void setUp() {
-    ConnectionFactory connectionFactory = Mockito.mock(ConnectionFactory.class);
-
-    when(connectionFactory.create()).thenReturn((Publisher) Mono.just(connection));
-    when(connection.close()).thenReturn(Mono.empty());
-
-    clientBuilder = DatabaseClient.builder()
-            .connectionFactory(connectionFactory)
-            .dataAccessStrategy(new DefaultReactiveDataAccessStrategy(SqlServerDialect.INSTANCE));
-  }
-
-  @AfterEach
-  void tearDown() {
-    clientBuilder = null;
-  }
-  /*
-  @Test
-  void testInit() {
-    System.out.println("PsTemplateRepoTest.testInit");
-    StepVerifier.create(repo.findAll())
-            .recordWith(ArrayList::new)
-            .consumeRecordedWith(s ->
-                    s.forEach(d -> assertAll(
-                            () -> assertNotNull(d.getTemplateId()),
-                            () -> assertNotNull(d.getDescript()),
-                            () -> assertNotNull(d.getSiteCd()),
-                            () -> assertNotNull(d.getTemplateSeq()))
-                    ))
-            .thenCancel()
-            .verify()
-    ;
-  }
-*/
+class PsTemplateRepoTest extends CommonMockitoTest {
 
   @Test
   void testFineOne() {
@@ -156,7 +100,7 @@ class PsTemplateRepoTest {
 //    https://github.com/spring-projects/spring-data-r2dbc/blob/master/src/test/java/org/springframework/data/r2dbc/core/DefaultDatabaseClientUnitTests.java
 //    186L
 //    522L
-    Statement statement = mockStatementFor("SELECT * FROM TTB_CMSC_TEMPLATE WHERE TEMPLATE_ID IN ($1, $2, $3)");
+    Statement statement = mockStatementFor("SELECT * FROM TTB_CMSC_TEMPLATE WHERE TEMPLATE_ID IN ($n)");
 
     final DatabaseClient client = clientBuilder.build();
 
@@ -170,47 +114,12 @@ class PsTemplateRepoTest {
             .as(StepVerifier::create)
             .verifyComplete();
 
-    verify(statement).bind(0, "template1");
-    verify(statement).bind(1, "template2");
-    verify(statement).bind(2, "template3");
+    verify(statement).bind(0, Arrays.asList("template1", "template2", "template3"));
+//    verify(statement).bind(1, "template2");
+//    verify(statement).bind(2, "template3");
     verify(statement).execute();
 
     verifyNoMoreInteractions(statement);
   }
 
-  private Statement mockStatement() {
-    return mockStatementFor(null, null);
-  }
-
-  private Statement mockStatement(Result result) {
-    return mockStatementFor(null, result);
-  }
-
-  /**
-   * @param sql
-   * @return
-   */
-  private Statement mockStatementFor(String sql) {
-    return mockStatementFor(sql, null);
-  }
-
-  /**
-   * SQL Query를 입력받아
-   *
-   * @param sql
-   * @param result
-   * @return
-   */
-  private Statement mockStatementFor(@Nullable String sql, @Nullable Result result) {
-
-    Statement statement = mock(Statement.class);
-//    when(connection.createStatement(anyString())).thenReturn(statement);
-    when(connection.createStatement(sql == null ? anyString() : eq(sql))).thenReturn(statement);
-    when(statement.returnGeneratedValues(anyString())).thenReturn(statement);
-    when(statement.returnGeneratedValues()).thenReturn(statement);
-
-    doReturn(result == null ? Mono.empty() : Flux.just(result)).when(statement).execute();
-
-    return statement;
-  }
 }
