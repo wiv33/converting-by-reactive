@@ -33,12 +33,6 @@ import static org.mockito.Mockito.*;
 public class CommonMockitoTest {
 
   @Mock
-  DatabaseClient databaseClient;
-
-  @Autowired
-  ApplicationContext context;
-
-  @Mock
   Connection connection;
 
   DatabaseClient.Builder clientBuilder;
