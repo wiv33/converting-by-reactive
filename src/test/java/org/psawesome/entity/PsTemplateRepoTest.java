@@ -65,7 +65,24 @@ class PsTemplateRepoTest extends CommonMockitoTest {
     when(template.getTemplateId()).thenReturn("template3");
     when(template.getDescript()).thenReturn("템플릿 테스트 3");
     when(template.getSiteCd()).thenReturn("JAI");
+
+    final DatabaseClient client = clientBuilder.build();
   }
+
+/*
+  @Autowired
+  PsTemplateRepo psTemplateRepo;
+
+  @Test
+  void testRepoFindOne() {
+    psTemplateRepo.findOne(1)
+            .log()
+            .as(StepVerifier::create)
+            .expectNextCount(1)
+            .verifyComplete();
+
+  }
+*/
 
   @Test
   void testMockBeanIsNotNull() {

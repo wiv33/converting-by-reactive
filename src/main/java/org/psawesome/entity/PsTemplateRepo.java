@@ -5,6 +5,7 @@ import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.Row;
 import io.r2dbc.spi.RowMetadata;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,16 +26,22 @@ public class PsTemplateRepo {
                     .flatMap(r -> r.map(this::setDto)));
   }
 
-/*
   Flux<PsTemplate> findOne(Integer id) {
+    /*
+    TODO
+java.lang.UnsupportedOperationException: Binding parameters is not supported for the statement [SELECT * FROM TTB_CMSC_TEMPLATE WHERE TEMPLATE_SEQ = $1]
+	at io.r2dbc.mssql.SimpleMssqlStatement.bind(SimpleMssqlStatement.java:93) ~[r2dbc-mssql-0.8.5.RELEASE.jar:0.8.5.RELEASE]
+	at io.r2dbc.mssql.SimpleMssqlStatement.bind(SimpleMssqlStatement.java:43) ~[r2dbc-mssql-0.8.5.RELEASE.jar:0.8.5.RELEASE]
+	at org.psawesome.entity.PsTemplateRepo.lambda$findOne$3(PsTemplateRepo.java:32) ~[main/:na]
+    */
     return this.connection().flatMapMany(connection ->
             Flux.from(connection.createStatement("SELECT * FROM TTB_CMSC_TEMPLATE WHERE TEMPLATE_SEQ = $1")
-                    .bind("$1", id)
+                    .fetchSize(1)
+                    .bind(0, id)
                     .execute())
                     .log()
                     .flatMap(r -> r.map(this::setDto)));
   }
-*/
 
   private Mono<Connection> connection() {
     return Mono.from(this.connectionFactory.create());
