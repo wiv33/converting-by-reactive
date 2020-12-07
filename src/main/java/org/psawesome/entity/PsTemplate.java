@@ -15,24 +15,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PsTemplate {
-    @Id
-    private Integer templateSeq;
-
-    private String siteCd;
-
-    private String templateId;
-
-    private String descript;
-
-    private String inout;
-
-    private String useYn;
-
-    private String modSeq;
-
-    private LocalDateTime modDt;
-
-    private String regSeq;
-
-    private LocalDateTime regDt;
+  @Id
+  private Integer templateSeq;
+  private String siteCd;
+  private String templateId;
+  private String descript;
+  private String inout;
+  private String useYn;
+  private String modSeq;
+  private LocalDateTime modDt;
+  private String regSeq;
+  private LocalDateTime regDt;
 }
