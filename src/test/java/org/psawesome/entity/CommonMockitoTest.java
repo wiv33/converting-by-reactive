@@ -13,9 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.reactivestreams.Publisher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.r2dbc.core.DatabaseClient;
 import org.springframework.data.r2dbc.core.DefaultReactiveDataAccessStrategy;
 import org.springframework.data.r2dbc.dialect.SqlServerDialect;
@@ -33,9 +31,9 @@ import static org.mockito.Mockito.*;
 public class CommonMockitoTest {
 
   @Mock
-  Connection connection;
+  public Connection connection;
 
-  DatabaseClient.Builder clientBuilder;
+  public DatabaseClient.Builder clientBuilder;
 
   @BeforeEach
   void setUp() {
