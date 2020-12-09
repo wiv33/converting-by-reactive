@@ -23,6 +23,16 @@ public class LocalPrettyPrintWriter extends PrettyPrintWriter {
     super(writer);
   }
 
+  @Override
+  public String encodeAttribute(String name) {
+    return super.encodeAttribute(name);
+  }
+
+  @Override
+  protected void writeAttributeValue(QuickWriter writer, String text) {
+    super.writeAttributeValue(writer, text);
+  }
+
   /**
    * 실제 text값을 xml태그를 통해 표현하는 메소드이다.
    * 상위 클래스인 PrettyPrintWriter의 다른 기능을 그대로 사용하되 CDATA처리를 위해 오버라이딩했다. .

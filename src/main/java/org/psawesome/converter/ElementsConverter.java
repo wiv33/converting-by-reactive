@@ -8,10 +8,7 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import org.psawesome.dto.response.ElementsByXml;
 import org.psawesome.dto.response.ElementsWrapper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -50,20 +47,19 @@ public class ElementsConverter implements Converter {
     });
   }
 
-  ConcurrentLinkedDeque<String> deque = new ConcurrentLinkedDeque<>(List.of(""));
-
-  private void flattenUnmarshal(HierarchicalStreamReader reader, List<ElementsByXml> elements) {
-
+  private void flattenUnmarshal(HierarchicalStreamReader reader,
+                                List<ElementsByXml> elements,
+                                Deque<String> elementDeque) {
     final List<Map<String, Object>> attrs = this.addAttrs(reader);
     final Map<String, Object> element = Map.of(reader.getNodeName(), reader.getValue());
 
-    elements.add(new ElementsByXml(element, attrs, deque.getLast()));
+    elements.add(new ElementsByXml(element, attrs, elementDeque.getLast()));
 
     while (reader.hasMoreChildren()) {
-      deque.add(reader.getNodeName());
+      elementDeque.add(reader.getNodeName());
       reader.moveDown();
-      flattenUnmarshal(reader, elements);
-      deque.removeLast();
+      flattenUnmarshal(reader, elements, elementDeque);
+      elementDeque.removeLast();
       reader.moveUp();
     }
 
@@ -71,11 +67,12 @@ public class ElementsConverter implements Converter {
 
   @Override
   public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-    ElementsWrapper<ElementsByXml> result = new ElementsWrapper<>(new ArrayList<>());
-    final List<ElementsByXml> elements = result.getElements();
+    ElementsWrapper<ElementsByXml> result = new ElementsWrapper<>(new ArrayList<>()); // 반환할 wrapper
+    final List<ElementsByXml> elements = result.getElements(); // XML element 1 : 1 ElementsByXml.class
+    Deque<String> parentDeque = new ArrayDeque<>(List.of("")); // 부모 찾기
 
     // 재귀 시작
-    flattenUnmarshal(reader, elements);
+    flattenUnmarshal(reader, elements, parentDeque);
 
     return result;
   }
