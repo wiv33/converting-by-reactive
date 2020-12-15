@@ -2,11 +2,14 @@ package org.psawesome.converter;
 
 import lombok.Getter;
 import org.psawesome.dto.response.ElementsByDb;
+import org.psawesome.dto.response.ElementsWrapper;
 import org.psawesome.entity.PsAttribute;
 import org.psawesome.entity.PsChild;
 import org.springframework.data.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
 
 import static org.springframework.data.relational.core.query.Criteria.where;
 
@@ -20,7 +23,7 @@ public class ElementsRepo {
     this.client = databaseClientBuilder.build();
   }
 
-  public Flux<ElementsByDb> selectAllByTemplateSeq(Integer templateSeq) {
+  public Mono<ElementsWrapper<ElementsByDb>> selectAllByTemplateSeq(Integer templateSeq) {
     return this.client
             .select()
             .from(PsChild.class)
@@ -32,6 +35,11 @@ public class ElementsRepo {
                     .from(PsAttribute.class).matching(where("CHILD_SEQ").is(psChild.getChildSeq()))
                     .as(PsAttribute.class)
                     .all()))
+            .reduceWith(() -> new ElementsWrapper<>(new ArrayList<>()),
+                    ((objectElementsWrapper, elementsByDb) -> {
+                      objectElementsWrapper.getElements().add(elementsByDb);
+                      return objectElementsWrapper;
+                    }))
             ;
   }
 

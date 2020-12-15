@@ -4,11 +4,9 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
-import reactor.core.publisher.Flux;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Builder
@@ -34,6 +32,7 @@ public class PsChild {
   private String regSeq;
   private LocalDateTime regDt;
 
+  private List<Object> testList;
 }
 
 

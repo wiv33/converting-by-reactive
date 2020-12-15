@@ -52,10 +52,14 @@ class ElementsConverterTest {
             .map(ElementsByXml::getAttributes)
             .collect(toList());
 
+/*
     o.getElements()
             .forEach(d -> d.getElements()
                     .forEach((key, value) ->
                             System.out.printf("element name: [%s], element value: [%s]\nattributes: [%s]\n*:*: %s :*:*\n\n", key, value, d.getAttributes().toString(), d.getParentNode())));
+*/
+
+    Assertions.assertEquals(61, o.getElements().size());
 
     Assertions.assertAll(
             () -> assertNotEquals(0, o.getElements().size()),

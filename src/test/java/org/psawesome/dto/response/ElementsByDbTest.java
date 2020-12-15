@@ -4,9 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.psawesome.converter.ElementsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import reactor.core.publisher.Flux;
-
-import java.util.stream.Collectors;
+import reactor.core.publisher.Mono;
 
 
 @SpringBootTest
@@ -17,9 +15,9 @@ class ElementsByDbTest {
 
   @Test
   void testTransform() {
-    final Flux<ElementsByDb> elementsByDbFlux = repo.selectAllByTemplateSeq(2);
+    final Mono<ElementsWrapper<ElementsByDb>> elementsByDbFlux = repo.selectAllByTemplateSeq(2);
 
-    final ElementsWrapper<ElementsByDb> elementsByDb = new ElementsWrapper<>(elementsByDbFlux.toStream().collect(Collectors.toList()));
+    final ElementsWrapper<ElementsByDb> elementsByDb = new ElementsWrapper<>(elementsByDbFlux.block().getElements());
 
     elementsByDb.getElements()
             .forEach(System.out::println);
