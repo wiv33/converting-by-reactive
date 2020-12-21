@@ -6,8 +6,6 @@ import lombok.Setter;
 import org.psawesome.entity.PsChild;
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
-
 @Data
 @Setter(AccessLevel.NONE)
 public class ChildResponse implements SetResponse {
@@ -24,7 +22,6 @@ public class ChildResponse implements SetResponse {
   private String cdataYn;
   private String repeatYn;
   private String remark;
-  private List<String> testList;
 
   public ChildResponse(PsChild request) {
     accept(request, this);

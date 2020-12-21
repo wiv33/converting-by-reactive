@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
@@ -32,7 +31,6 @@ public class PsChild {
   private String regSeq;
   private LocalDateTime regDt;
 
-  private List<Object> testList;
 }
 
 

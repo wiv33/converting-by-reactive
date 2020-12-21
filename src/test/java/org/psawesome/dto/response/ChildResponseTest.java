@@ -20,7 +20,7 @@ class ChildResponseTest {
             .childDescript("어머나")
             .defaultValue("ㅇㅇㅇ")
             .repeatYn("N")
-            .testList(List.of("a","b", "c"))
+//            .testList(List.of("a","b", "c"))
             .build();
     response = new ChildResponse(psChild);
   }
